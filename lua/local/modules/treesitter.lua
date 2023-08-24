@@ -42,6 +42,11 @@ function C.setup()
       additional_vim_regex_highlighting = false,
     },
   }
+
+  require('illuminate').configure({
+    -- providers: provider used to get references in the buffer, ordered by priority
+    providers = { 'lsp', 'treesitter', },
+  })
 end
 
 return C
