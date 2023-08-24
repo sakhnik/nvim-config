@@ -3,6 +3,9 @@ local C = {}
 C.plugins = {
   'nvim-treesitter/nvim-treesitter';
   'nvim-treesitter/playground';
+
+  -- Highlight usage of a variable under cursor
+  'RRethy/vim-illuminate';
 }
 
 function C.setup()
