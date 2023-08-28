@@ -9,6 +9,7 @@ return {
     'bronson/vim-visual-star-search';
     'raimondi/delimitmate';
     'wellle/targets.vim';
+    'sheerun/vim-polyglot';
     'mh21/errormarker.vim';
     'sirtaj/vim-openscad';
     'plasticboy/vim-markdown';
@@ -28,5 +29,7 @@ return {
     vim.g.ledger_commodity_before = 0
     vim.g.ledger_commodity_sep = ' '
     vim.g.ledger_fold_blanks = 1
+
+    vim.g.polyglot_disabled = {'sensible'}
   end
 }

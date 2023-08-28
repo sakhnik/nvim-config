@@ -1,8 +1,6 @@
 -- vim: set et ts=2 sw=2:
 --
 
---vim.loader.enable()
-
 -- disable netrw in favour of nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
