@@ -1,8 +1,8 @@
 local function configureBuffer() --(client, bufnr)
-  require("local.lsp").configureBuffer()
+  require("local.modules.lsp").configureBuffer()
 
   local opts = {noremap = true, silent = true, buffer = true}
-  vim.keymap.set('n', '<A-o>', require'jdtls'.organize_imports, opts)
+  vim.keymap.set('n', '<M-o>', require'jdtls'.organize_imports, opts)
   vim.keymap.set('n', 'crv', require('jdtls').extract_variable, opts)
   vim.keymap.set('v', 'crv', function() require('jdtls').extract_variable(true) end, opts)
   vim.keymap.set('n', 'crv', require('jdtls').extract_variable, opts)
