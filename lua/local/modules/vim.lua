@@ -3,7 +3,7 @@ return {
     'tpope/vim-fugitive';
     'tpope/vim-eunuch';               -- :SudoWrite
     'tpope/vim-repeat';               -- Repeat mapping with .
-    'tpope/vim-sleuth';               -- Set buffer options euristically
+    'tpope/vim-sleuth';               -- Set buffer options heuristically
     'tpope/vim-unimpaired';           -- ]q, ]a etc
     'kylechui/nvim-surround';         -- Movements s', s(
     'bronson/vim-visual-star-search';

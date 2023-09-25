@@ -1,11 +1,11 @@
 local C = {}
 
 C.plugins = {
-  'nvim-treesitter/nvim-treesitter';
-  'nvim-treesitter/playground';
+  { 'nvim-treesitter/nvim-treesitter', run = function() pcall(vim.api.nvim_command, ':TSUpdate') end },
+  'nvim-treesitter/playground',
 
   -- Highlight usage of a variable under cursor
-  'RRethy/vim-illuminate';
+  'RRethy/vim-illuminate',
 }
 
 function C.setup()
