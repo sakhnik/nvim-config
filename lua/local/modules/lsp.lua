@@ -139,7 +139,7 @@ local function setup_clangd()
   local opts = {
     on_attach = C.configureBuffer,
     capabilities = get_caps(),
-    cmd = { "clangd", "--completion-style=detailed", "--enable-config" }
+    cmd = { "clangd", "--completion-style=detailed", "--enable-config", "--log=error" }
   }
   require'lspconfig'.clangd.setup(opts)
 end
