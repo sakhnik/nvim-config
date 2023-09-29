@@ -146,6 +146,8 @@ end
 
 function C.setup()
 
+  vim.lsp.set_log_level("ERROR")
+
   require"mason".setup()
   require"mason-lspconfig".setup()
 
