@@ -14,6 +14,7 @@ return function()
     require'local.modules.treesitter',
     require'local.modules.term',
     require'local.modules.quickfix',
+    require'local.modules.dap',
   }
 
   local paqpath = vim.fn.stdpath('data') .. '/site/pack/paqs/opt/paq-nvim'
