@@ -19,8 +19,11 @@ local function configureBuffer() --(client, bufnr)
   ]]
 end
 
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+local workspace_dir = '/w/jdtls/workspace/' .. project_name
+
 local config = {
-  cmd = {'jdtls'},
+  cmd = {'jdtls', '-data', workspace_dir},
   root_dir = vim.fs.dirname(vim.fs.find({'gradlew', '.git', '.hg', 'mvnw'}, { upward = true })[1]),
   on_attach = configureBuffer,
   settings = {
@@ -41,6 +44,17 @@ local config = {
         }
       }
     }
-  }
+  },
 }
+
+local bundles = {
+  "/usr/share/java-debug/com.microsoft.java.debug.plugin.jar",
+  "/usr/share/java-debug/com.microsoft.java.debug.core.jar"
+}
+vim.list_extend(bundles, vim.split(vim.fn.glob("/w/nvim/vscode-java-test/server/*.jar", 1), "\n"))
+
+config['init_options'] = {
+  bundles = bundles;
+}
+
 require('jdtls').start_or_attach(config)
