@@ -17,6 +17,11 @@ return {
     'majutsushi/tagbar';
     'Kris2k/A.vim';
     'ledger/vim-ledger';
+
+    -- database exploration
+    'tpope/vim-dadbod',
+    'kristijanhusak/vim-dadbod-ui',
+    'kristijanhusak/vim-dadbod-completion',
   },
   setup = function()
     require'nvim-surround'.setup()
