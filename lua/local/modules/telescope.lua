@@ -6,6 +6,7 @@ C.plugins = {
   'nvim-telescope/telescope.nvim';
   'nvim-telescope/telescope-project.nvim';
   'nvim-telescope/telescope-live-grep-args.nvim';
+  'nvim-telescope/telescope-ui-select.nvim';
 }
 
 function C.setup()
@@ -22,7 +23,7 @@ function C.setup()
 
   local lga_actions = require"telescope-live-grep-args.actions"
 
-  require'telescope'.setup{
+  require'telescope'.setup {
     defaults = {
       path_display = {shorten = 4, 'truncate'},
       file_ignore_patterns = {'%.class'},
@@ -50,6 +51,7 @@ function C.setup()
   }
 
   require'telescope'.load_extension("live_grep_args")
+  require("telescope").load_extension("ui-select")
 end
 
 return C
