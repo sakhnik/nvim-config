@@ -6,10 +6,15 @@ C.plugins = {
   "kawre/leetcode.nvim",
 }
 
+local lang = 'cpp'
+if vim.env.LEETCODE_LANG ~= nil then
+  lang = vim.env.LEETCODE_LANG
+end
+
 function C.setup()
   require'leetcode'.setup {
     ---@type lc.lang
-    lang = "cpp",
+    lang = lang,
 
     ---@type lc.sql
     sql = "sqlite",
