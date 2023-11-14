@@ -142,10 +142,10 @@ function C.setup()
         -- Use if you want more granular movements
         -- Make it even more gradual by adding multiple queries and regex.
         goto_next = {
-          ["]c"] = "@conditional.outer",
+          ["]v"] = "@conditional.outer",
         },
         goto_previous = {
-          ["[c"] = "@conditional.outer",
+          ["[v"] = "@conditional.outer",
         }
       },
     },
