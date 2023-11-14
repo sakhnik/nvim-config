@@ -18,6 +18,9 @@ return {
     'Kris2k/A.vim';
     'ledger/vim-ledger';
 
+    -- Keymap online help
+    'folke/which-key.nvim',
+
     -- database exploration
     'tpope/vim-dadbod',
     'kristijanhusak/vim-dadbod-ui',
@@ -25,6 +28,8 @@ return {
   },
   setup = function()
     require'nvim-surround'.setup()
+
+    require('which-key').setup {}
 
     vim.g.ledger_bin = 'ledger'
     vim.g.ledger_date_format = '%Y-%m-%d'
