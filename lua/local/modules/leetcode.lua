@@ -17,7 +17,7 @@ function C.setup()
     lang = lang,
 
     ---@type lc.sql
-    sql = "sqlite",
+    sql = "pythondata",
   }
 end
 
