@@ -25,11 +25,13 @@ return {
     'tpope/vim-dadbod',
     'kristijanhusak/vim-dadbod-ui',
     'kristijanhusak/vim-dadbod-completion',
+
+    'LittleMorph/copyright-updater.nvim',
   },
   setup = function()
-    require'nvim-surround'.setup()
-
-    require('which-key').setup {}
+    require'nvim-surround'.setup {}
+    require'which-key'.setup {}
+    require'copyright-updater'.setup {}
 
     vim.g.ledger_bin = 'ledger'
     vim.g.ledger_date_format = '%Y-%m-%d'
