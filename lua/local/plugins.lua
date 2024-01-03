@@ -86,10 +86,17 @@ return function()
   ---@param module string module name
   ---@return any whatever the module returns
   local function paq_require(module)
+    -- If running from pcall, just forward
+    local info = debug.getinfo(2, "n")
+    if info and info.name == "pcall" then
+      return orig_require(module)
+    end
+
     local ok, res = pcall(orig_require, module)
     if ok then
       return res
     end
+
     -- A couple of exceptions not directly related to a plugin installation
     if module:find("mason%-lspconfig%.server_configurations") or module:find("jsregexp") then
       return res
