@@ -30,7 +30,7 @@ function C.setup()
     },
     pickers = {
       find_files = {
-        no_ignore = true,
+        no_ignore = false,
       },
     },
     extensions = {
@@ -39,7 +39,7 @@ function C.setup()
         mappings = { -- extend mappings
           i = {
             ["<M-k>"] = lga_actions.quote_prompt(),
-            ["<M-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+            ["<M-i>"] = lga_actions.quote_prompt({ postfix = " -t cpp" }),
           },
         },
         -- ... also accepts theme settings, for example:
