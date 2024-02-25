@@ -34,6 +34,8 @@ return {
     require'which-key'.setup {}
     require'copyright-updater'.setup {}
 
+    vim.g.vim_markdown_folding_disabled = true
+
     vim.g.ledger_bin = 'ledger'
     vim.g.ledger_date_format = '%Y-%m-%d'
     vim.g.ledger_extra_options = '--pedantic --explicit --date-format ' .. vim.g.ledger_date_format
