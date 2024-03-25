@@ -101,6 +101,10 @@ return function()
     if module:find("mason%-lspconfig%.server_configurations") or module:find("jsregexp") then
       return res
     end
+    -- If neovim starts with this message, and Paq installs nothing,
+    -- check that module manually with `:lua require'module'`
+    -- Most likely, the module can't load because of missing dependency
+    -- or some recent change.
     print("Installing plugins for " .. module)
     local co = coroutine.running()
     local auid = vim.api.nvim_create_autocmd('User', {
