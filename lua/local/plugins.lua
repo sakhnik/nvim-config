@@ -106,11 +106,11 @@ return function()
     local auid = vim.api.nvim_create_autocmd('User', {
       pattern = 'PaqDoneInstall',
       callback = vim.schedule_wrap(function()
-        coroutine.resume(co)
+        pcall(coroutine.resume, co)
       end),
     })
     orig_require'paq'.install()
-    coroutine.yield()
+    pcall(coroutine.yield)
     vim.api.nvim_del_autocmd(auid)
     return orig_require(module)
   end
