@@ -8,6 +8,8 @@ local function configureBuffer() --(client, bufnr)
   vim.keymap.set('n', 'crv', require('jdtls').extract_variable, opts)
   vim.keymap.set('v', 'crv', function() require('jdtls').extract_variable(true) end, opts)
   vim.keymap.set('v', 'crm', function() require('jdtls').extract_method(true) end, opts)
+  vim.api.nvim_set_keymap('n', '<leader>df', '', { noremap = true, buffer = true, callback = function() require'jdtls'.test_class() end, desc = 'JDT LS test class' })
+  vim.api.nvim_set_keymap('n', '<leader>dm', '', { noremap = true, buffer = true, callback = function() require'jdtls'.test_nearest_method() end, desc = 'JDT LS test nearest method' })
 
   vim.cmd [[
     command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)
