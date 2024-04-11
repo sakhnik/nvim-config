@@ -21,6 +21,10 @@ function C.setup()
   vim.keymap.set({'n', 'v'}, '<Leader>dp', function() widgets().preview() end, {noremap = true, desc = 'DAP preview'})
   vim.keymap.set('n', '<Leader>df', function() widgets().centered_float(widgets().frames) end, {noremap = true, desc = 'DAP frames'})
   vim.keymap.set('n', '<Leader>ds', function() widgets().centered_float(widgets().scopes) end, {noremap = true, desc = 'DAP scopes'})
+
+  if vim.fn.executable('gdb') == 1 then
+    require('local.modules.dap.cpp')
+  end
 end
 
 return C
