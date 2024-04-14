@@ -5,10 +5,12 @@ C.plugins = {
   'mfussenegger/nvim-dap-python',
   'nvim-neotest/nvim-nio',
   'rcarriga/nvim-dap-ui',
+  'theHamsta/nvim-dap-virtual-text',
 }
 
 function C.setup()
   require'dapui'.setup()
+  require'nvim-dap-virtual-text'.setup()
 
   vim.api.nvim_set_keymap('n', '<leader>bb', '', { noremap = true, callback = function() require'dap'.toggle_breakpoint() end, desc = 'DAP toggle breakpoint' })
   vim.api.nvim_set_keymap('n', '<leader>bc', '', { noremap = true, callback = function() require'dap'.continue() end, desc = 'DAP continue' })
