@@ -11,10 +11,10 @@ C.plugins = {
 
 function C.setup()
   local noremap_silent = {noremap = true, silent = true}
-  local tsbi = require('telescope.builtin')
+  local tsbi = require'telescope.builtin'
+  vim.keymap.set('n', '<leader>f', tsbi.builtin, noremap_silent)
   vim.keymap.set('n', '<leader>ff', tsbi.find_files, noremap_silent)
   vim.keymap.set('n', '<leader>fg', tsbi.git_files, noremap_silent)
-  vim.keymap.set('n', '<leader>f<space>', tsbi.builtin, noremap_silent)
   --vim.keymap.set('n', '<leader>gg', tsbi.live_grep, noremap_silent)
   vim.keymap.set("n", "<leader>gg", require'telescope'.extensions.live_grep_args.live_grep_args, noremap_silent)
   vim.keymap.set('n', '<leader>fc', tsbi.current_buffer_fuzzy_find, noremap_silent)
