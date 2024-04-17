@@ -40,6 +40,10 @@ vim.o.laststatus = 2
 vim.o.showbreak = '\\'  --↪
 vim.o.undofile = true
 
+vim.o.keymap  = 'uk'
+vim.o.iminsert = 0
+vim.o.imsearch = 0
+
 -- Forget about ex mode
 vim.keymap.set('', 'Q', function() end, {})
 
