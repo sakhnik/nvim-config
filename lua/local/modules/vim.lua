@@ -22,11 +22,6 @@ return {
     -- Keymap online help
     'folke/which-key.nvim',
 
-    -- database exploration
-    'tpope/vim-dadbod',
-    'kristijanhusak/vim-dadbod-ui',
-    'kristijanhusak/vim-dadbod-completion',
-
     'LittleMorph/copyright-updater.nvim',
   },
   setup = function()
