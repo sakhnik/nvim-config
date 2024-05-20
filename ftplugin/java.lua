@@ -1,15 +1,22 @@
 local function configureBuffer() --(client, bufnr)
   require("local.modules.lsp").configureBuffer()
 
-  local opts = {noremap = true, silent = true, buffer = true}
-  vim.keymap.set('n', '<M-o>', require'jdtls'.organize_imports, opts)
-  vim.keymap.set('n', 'crv', require('jdtls').extract_variable, opts)
-  vim.keymap.set('v', 'crv', function() require('jdtls').extract_variable(true) end, opts)
-  vim.keymap.set('n', 'crv', require('jdtls').extract_variable, opts)
-  vim.keymap.set('v', 'crv', function() require('jdtls').extract_variable(true) end, opts)
-  vim.keymap.set('v', 'crm', function() require('jdtls').extract_method(true) end, opts)
-  vim.api.nvim_set_keymap('n', '<leader>df', '', { noremap = true, buffer = true, callback = function() require'jdtls'.test_class() end, desc = 'JDT LS test class' })
-  vim.api.nvim_set_keymap('n', '<leader>dm', '', { noremap = true, buffer = true, callback = function() require'jdtls'.test_nearest_method() end, desc = 'JDT LS test nearest method' })
+  vim.keymap.set('n', '<M-o>', require'jdtls'.organize_imports,
+    {noremap = true, silent = true, buffer = true, desc = 'JDT LS organize imports'})
+  vim.keymap.set('n', 'crv', require('jdtls').extract_variable,
+    {noremap = true, silent = true, buffer = true, desc = 'JDT LS extract variable'})
+  vim.keymap.set('v', 'crv', function() require('jdtls').extract_variable(true) end,
+    {noremap = true, silent = true, buffer = true, desc = 'JDT LS extract variable'})
+  vim.keymap.set('n', 'crv', require('jdtls').extract_variable,
+    {noremap = true, silent = true, buffer = true, desc = 'JDT LS extract variable'})
+  vim.keymap.set('v', 'crv', function() require('jdtls').extract_variable(true) end,
+    {noremap = true, silent = true, buffer = true, desc = 'JDT LS extract variable'})
+  vim.keymap.set('v', 'crm', function() require('jdtls').extract_method(true) end,
+    {noremap = true, silent = true, buffer = true, desc = 'JDT LS extract method'})
+  vim.keymap.set('n', '<leader>df', function() require'jdtls'.test_class() end,
+    {noremap = true, silent = true, buffer = true, desc = 'JDT LS test class'})
+  vim.keymap.set('n', '<leader>dm', function() require'jdtls'.test_nearest_method() end,
+    {noremap = true, silent = true, buffer = true, desc = 'JDT LS test nearest method'})
 
   vim.cmd [[
     command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)
