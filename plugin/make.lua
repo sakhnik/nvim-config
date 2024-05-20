@@ -1,5 +1,15 @@
 local M = {}
 
+local function filter_out_controls(line)
+    return line:gsub('\x1B[@-_][0-?]*[ -/]*[@-~]', '')
+end
+
+local function jump_to_bottom()
+  local num_lines = vim.api.nvim_buf_line_count(M.qf_bufnr)
+  local _, col = unpack(vim.api.nvim_win_get_cursor(M.qf_winnr))
+  vim.api.nvim_win_set_cursor(M.qf_winnr, {num_lines, col})
+end
+
 function M.make()
   -- Stop any previous jobs
   if M.job_id ~= nil then
@@ -10,7 +20,6 @@ function M.make()
   vim.fn.setqflist({}, "r")
 
   --local winnr = vim.fn.win_getid()
-  --local bufnr = vim.api.nvim_win_get_buf(winnr)
 
   local makeprg = vim.o.makeprg
   if not makeprg then return end
@@ -31,20 +40,23 @@ function M.make()
         for i, chunk in ipairs(data) do
           -- Take into account potentially unfinished lines in the previous bunch of output
           if i == 1 then
-            vim.fn.setqflist({}, "a", { title = cmd, lines = {partial_chunk .. chunk}, })
+            vim.fn.setqflist({}, "a", { title = cmd, lines = {filter_out_controls(partial_chunk .. chunk)}, })
             partial_chunk = ''
           elseif i == #data then
             -- Just remember the last chunk
             partial_chunk = chunk
           else
             -- Output immediately complete lines
-            vim.fn.setqflist({}, "a", { title = cmd, lines = {chunk}, })
+
+            vim.fn.setqflist({}, "a", { title = cmd, lines = {filter_out_controls(chunk)}, })
           end
         end
       end
+      jump_to_bottom()
     elseif event == "exit" then
       if partial_chunk ~= '' then
-        vim.fn.setqflist({}, "a", { title = cmd, lines = {partial_chunk}, })
+        vim.fn.setqflist({}, "a", { title = cmd, lines = {filter_out_controls(partial_chunk)}, })
+        jump_to_bottom()
       end
       vim.api.nvim_command("doautocmd QuickFixCmdPost")
     end
@@ -59,6 +71,8 @@ function M.make()
     })
   if M.job_id > 0 then
     vim.cmd('copen')
+    M.qf_winnr = vim.fn.win_getid()
+    M.qf_bufnr = vim.api.nvim_win_get_buf(M.qf_winnr)
   end
 end
 
