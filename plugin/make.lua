@@ -10,10 +10,28 @@ local function jump_to_bottom()
   vim.api.nvim_win_set_cursor(M.qf_winnr, {num_lines, col})
 end
 
+local function stop_job()
+  if M.job_id > 0 then
+    vim.fn.jobstop(M.job_id)
+    M.job_id = 0
+    print("Compilation interrupted")
+  end
+end
+
+local function set_keymap()
+  vim.api.nvim_buf_set_keymap(M.qf_bufnr, 'n', '<c-c>', '', { noremap = true, callback = stop_job, desc = "Stop 'makeprg'" })
+end
+
+local function del_keymap()
+  vim.api.nvim_buf_del_keymap(M.qf_bufnr, 'n', '<c-c>')
+end
+
 function M.make()
   -- Stop any previous jobs
   if M.job_id ~= nil then
     vim.fn.chanclose(M.job_id)
+    stop_job()
+    del_keymap()
   end
 
   -- Clear the qf list
@@ -58,6 +76,7 @@ function M.make()
         vim.fn.setqflist({}, "a", { title = cmd, lines = {filter_out_controls(partial_chunk)}, })
         jump_to_bottom()
       end
+      del_keymap()
       vim.api.nvim_command("doautocmd QuickFixCmdPost")
     end
   end
@@ -73,6 +92,8 @@ function M.make()
     vim.cmd('copen')
     M.qf_winnr = vim.fn.win_getid()
     M.qf_bufnr = vim.api.nvim_win_get_buf(M.qf_winnr)
+    set_keymap()
+    print('Started compilation with makeprg=' .. vim.o.makeprg)
   end
 end
 
