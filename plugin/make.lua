@@ -1,5 +1,7 @@
 local M = {}
 
+local wheel = {'-', '\\', '|', '/'}
+
 local function filter_out_controls(line)
     return line:gsub('\x1B[@-_][0-?]*[ -/]*[@-~]', '')
 end
@@ -16,6 +18,10 @@ local function stop_job()
     M.job_id = 0
     print("Compilation interrupted")
   end
+  if M.timer_id >= 0 then
+    vim.fn.timer_stop(M.timer_id)
+    M.timer_id = -1
+  end
 end
 
 local function set_keymap()
@@ -26,6 +32,15 @@ local function del_keymap()
   vim.api.nvim_buf_del_keymap(M.qf_bufnr, 'n', '<c-c>')
 end
 
+local function get_phase_title(cmd)
+  M.wheel_phase = M.wheel_phase % #wheel + 1
+  return wheel[M.wheel_phase] .. ' ' .. cmd
+end
+
+local function append_qf_in_progress(cmd, lines)
+  vim.fn.setqflist({}, "a", { title = get_phase_title(cmd), lines = lines, })
+end
+
 function M.make()
   -- Stop any previous jobs
   if M.job_id ~= nil then
@@ -33,6 +48,7 @@ function M.make()
     stop_job()
     del_keymap()
   end
+  M.wheel_phase = 1
 
   -- Clear the qf list
   vim.fn.setqflist({}, "r")
@@ -58,23 +74,26 @@ function M.make()
         for i, chunk in ipairs(data) do
           -- Take into account potentially unfinished lines in the previous bunch of output
           if i == 1 then
-            vim.fn.setqflist({}, "a", { title = cmd, lines = {filter_out_controls(partial_chunk .. chunk)}, })
+            append_qf_in_progress(cmd, {filter_out_controls(partial_chunk .. chunk)})
             partial_chunk = ''
           elseif i == #data then
             -- Just remember the last chunk
             partial_chunk = chunk
           else
             -- Output immediately complete lines
-
-            vim.fn.setqflist({}, "a", { title = cmd, lines = {filter_out_controls(chunk)}, })
+            append_qf_in_progress(cmd, {filter_out_controls(chunk)})
           end
         end
       end
       jump_to_bottom()
     elseif event == "exit" then
+      vim.fn.timer_stop(M.timer_id)
+      M.timer_id = -1
       if partial_chunk ~= '' then
         vim.fn.setqflist({}, "a", { title = cmd, lines = {filter_out_controls(partial_chunk)}, })
         jump_to_bottom()
+      else
+        vim.fn.setqflist({}, "a", { title = cmd, lines = {}, })
       end
       del_keymap()
       vim.api.nvim_command("doautocmd QuickFixCmdPost")
@@ -92,6 +111,7 @@ function M.make()
     vim.cmd('copen')
     M.qf_winnr = vim.fn.win_getid()
     M.qf_bufnr = vim.api.nvim_win_get_buf(M.qf_winnr)
+    M.timer_id = vim.fn.timer_start(500, function() append_qf_in_progress(cmd, {}) end, {["repeat"] = -1})
     set_keymap()
     print('Started compilation with makeprg=' .. vim.o.makeprg)
   end
