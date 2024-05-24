@@ -7,9 +7,11 @@ local function filter_out_controls(line)
 end
 
 local function jump_to_bottom()
-  local num_lines = vim.api.nvim_buf_line_count(M.qf_bufnr)
-  local _, col = unpack(vim.api.nvim_win_get_cursor(M.qf_winnr))
-  vim.api.nvim_win_set_cursor(M.qf_winnr, {num_lines, col})
+  if vim.api.nvim_win_is_valid(M.qf_winnr) then
+    local num_lines = vim.api.nvim_buf_line_count(M.qf_bufnr)
+    local _, col = unpack(vim.api.nvim_win_get_cursor(M.qf_winnr))
+    vim.api.nvim_win_set_cursor(M.qf_winnr, {num_lines, col})
+  end
 end
 
 local function stop_job()
@@ -62,8 +64,6 @@ function M.make()
 
   -- Clear the qf list
   vim.fn.setqflist({}, "r")
-
-  --local winnr = vim.fn.win_getid()
 
   local makeprg = vim.o.makeprg
   if not makeprg then return end
