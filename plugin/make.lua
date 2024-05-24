@@ -13,23 +13,27 @@ local function jump_to_bottom()
 end
 
 local function stop_job()
+  if M.timer_id >= 0 then
+    vim.fn.timer_stop(M.timer_id)
+    M.timer_id = -1
+  end
   if M.job_id > 0 then
     vim.fn.jobstop(M.job_id)
     M.job_id = 0
     print("Compilation interrupted")
   end
-  if M.timer_id >= 0 then
-    vim.fn.timer_stop(M.timer_id)
-    M.timer_id = -1
-  end
 end
 
-local function set_keymap()
-  vim.api.nvim_buf_set_keymap(M.qf_bufnr, 'n', '<c-c>', '', { noremap = true, callback = stop_job, desc = "Stop 'makeprg'" })
+local function set_keymap(finalize)
+  vim.api.nvim_buf_set_keymap(M.qf_bufnr, 'n', '<c-c>', '', { noremap = true, callback = function() stop_job(); finalize() end, desc = "Stop 'makeprg'" })
+  M.keymap_set = true
 end
 
 local function del_keymap()
-  vim.api.nvim_buf_del_keymap(M.qf_bufnr, 'n', '<c-c>')
+  if M.keymap_set then
+    vim.api.nvim_buf_del_keymap(M.qf_bufnr, 'n', '<c-c>')
+    M.keymap_set = false
+  end
 end
 
 local function get_phase_title(cmd)
@@ -37,8 +41,12 @@ local function get_phase_title(cmd)
   return wheel[M.wheel_phase] .. ' ' .. cmd
 end
 
-local function append_qf_in_progress(cmd, lines)
-  vim.fn.setqflist({}, "a", { title = get_phase_title(cmd), lines = lines, })
+local function append_qf(title, lines)
+  vim.fn.setqflist({}, "a", { title = title, lines = lines, })
+end
+
+local function append_qf_in_progress(title, lines)
+  append_qf(get_phase_title(title), lines)
 end
 
 function M.make()
@@ -90,10 +98,10 @@ function M.make()
       vim.fn.timer_stop(M.timer_id)
       M.timer_id = -1
       if partial_chunk ~= '' then
-        vim.fn.setqflist({}, "a", { title = cmd, lines = {filter_out_controls(partial_chunk)}, })
+        append_qf(cmd, {filter_out_controls(partial_chunk)})
         jump_to_bottom()
       else
-        vim.fn.setqflist({}, "a", { title = cmd, lines = {}, })
+        append_qf(cmd, {})
       end
       del_keymap()
       vim.api.nvim_command("doautocmd QuickFixCmdPost")
@@ -112,7 +120,7 @@ function M.make()
     M.qf_winnr = vim.fn.win_getid()
     M.qf_bufnr = vim.api.nvim_win_get_buf(M.qf_winnr)
     M.timer_id = vim.fn.timer_start(500, function() append_qf_in_progress(cmd, {}) end, {["repeat"] = -1})
-    set_keymap()
+    set_keymap(function() append_qf(cmd, {}) end)
     print('Started compilation with makeprg=' .. vim.o.makeprg)
   end
 end
