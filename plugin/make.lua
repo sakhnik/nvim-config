@@ -7,11 +7,16 @@ local function filter_out_controls(line)
 end
 
 local function jump_to_bottom()
-  if vim.api.nvim_win_is_valid(M.qf_winnr) then
-    local num_lines = vim.api.nvim_buf_line_count(M.qf_bufnr)
-    local _, col = unpack(vim.api.nvim_win_get_cursor(M.qf_winnr))
-    vim.api.nvim_win_set_cursor(M.qf_winnr, {num_lines, col})
+  -- If the quickfix window has been closed, check if there's another window with quickfix
+  if not vim.api.nvim_win_is_valid(M.qf_winnr) then
+    local windows = vim.fn.win_findbuf(M.qf_bufnr)
+    if #windows == 0 then return end  -- no quickfix window at the moment
+    M.qf_winnr = windows[1]
   end
+  -- Put cursor to the end of the quickfix window
+  local num_lines = vim.api.nvim_buf_line_count(M.qf_bufnr)
+  local _, col = unpack(vim.api.nvim_win_get_cursor(M.qf_winnr))
+  vim.api.nvim_win_set_cursor(M.qf_winnr, {num_lines, col})
 end
 
 local function stop_job()
@@ -128,4 +133,5 @@ function M.make()
 end
 
 vim.api.nvim_set_keymap('n', '<leader>mm', '', { noremap = true, callback = M.make, desc = "Run 'makeprg' asynchronously and populate quickfix" })
+
 return M
