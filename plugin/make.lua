@@ -27,7 +27,7 @@ local function stop_job()
   if M.job_id > 0 then
     vim.fn.jobstop(M.job_id)
     M.job_id = 0
-    print("Compilation interrupted")
+    print("Command interrupted")
   end
 end
 
@@ -58,7 +58,8 @@ local function append_qf_in_progress(title, lines)
   append_qf(get_phase_title(title), lines)
 end
 
-function M.make()
+--- @param command_provider function(): string Get the command to execute
+function M.execute(command_provider)
   -- Stop any previous jobs
   if M.job_id ~= nil then
     vim.fn.chanclose(M.job_id)
@@ -70,10 +71,8 @@ function M.make()
   -- Clear the qf list
   vim.fn.setqflist({}, "r")
 
-  local makeprg = vim.o.makeprg
-  if not makeprg then return end
-
-  local cmd = vim.fn.expandcmd(makeprg)
+  local cmd = command_provider()
+  if not cmd then return end
 
   -- Collect unfinished line, which can be the last and first piece of data
   local partial_chunk = ''
@@ -128,10 +127,20 @@ function M.make()
     M.qf_bufnr = vim.api.nvim_win_get_buf(M.qf_winnr)
     M.timer_id = vim.fn.timer_start(500, function() append_qf_in_progress(cmd, {}) end, {["repeat"] = -1})
     set_keymap(function() append_qf(cmd, {}) end)
-    print('Started compilation with makeprg=' .. vim.o.makeprg)
   end
 end
 
+function M.make()
+  M.execute(function()
+    local makeprg = vim.o.makeprg
+    if not makeprg then return "" end
+    return vim.fn.expandcmd(makeprg)
+  end)
+end
+
 vim.api.nvim_set_keymap('n', '<leader>mm', '', { noremap = true, callback = M.make, desc = "Run 'makeprg' asynchronously and populate quickfix" })
+vim.api.nvim_create_user_command('X',
+  function(a) M.execute(function() return a.args end) end,
+  {nargs = "+", complete = "shellcmd", force = true, desc = 'Execute command asynchronously'})
 
 return M
