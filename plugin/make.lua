@@ -33,14 +33,12 @@ end
 
 local function set_keymap(finalize)
   vim.api.nvim_buf_set_keymap(M.qf_bufnr, 'n', '<c-c>', '', { noremap = true, callback = function() stop_job(); finalize() end, desc = "Stop 'makeprg'" })
-  vim.api.nvim_buf_set_keymap(M.qf_bufnr, 'n', '<esc>', ':cclose<cr>', { noremap = true, desc = 'Close quickfix window'})
   M.keymap_set = true
 end
 
 local function del_keymap()
   if M.keymap_set then
     vim.api.nvim_buf_del_keymap(M.qf_bufnr, 'n', '<c-c>')
-    vim.api.nvim_buf_del_keymap(M.qf_bufnr, 'n', '<esc>')
     M.keymap_set = false
   end
 end
