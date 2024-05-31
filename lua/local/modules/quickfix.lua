@@ -1,6 +1,6 @@
 return {
   plugins = {
-    {url = 'https://gitlab.com/yorickpeterse/nvim-pqf'};
+    'yorickpeterse/nvim-pqf';
   },
 
   setup = function()
