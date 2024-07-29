@@ -135,6 +135,25 @@ local function setup_jdtls()
   --require'lspconfig'.jdtls.setup(opts)
 end
 
+local function setup_pylsp()
+  local opts = {
+    on_attach = C.configureBuffer,
+    capabilities = get_caps(),
+    cmd = { "pylsp" },
+    settings = {
+      pylsp = {
+        plugins = {
+          pycodestyle = {
+            ignore = {'E501'},
+            maxLineLength = 100
+          }
+        }
+      },
+    }
+  }
+  require'lspconfig'.pylsp.setup(opts)
+end
+
 local function setup_clangd()
   local opts = {
     on_attach = C.configureBuffer,
@@ -168,6 +187,7 @@ function C.setup()
     java_language_server = setup_java_ls,
     lua_ls = setup_lua_ls,
     jdtls = setup_jdtls,
+    pylsp = setup_pylsp,
   }
 
   -- Setup nvim-cmp.
