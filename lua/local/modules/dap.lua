@@ -6,6 +6,7 @@ C.plugins = {
   'nvim-neotest/nvim-nio',
   'rcarriga/nvim-dap-ui',
   'theHamsta/nvim-dap-virtual-text',
+  'jbyuki/one-small-step-for-vimkind',
 }
 
 function C.setup()
@@ -27,6 +28,8 @@ function C.setup()
   if vim.fn.executable('gdb') == 1 then
     require('local.modules.dap.cpp')
   end
+
+  require'local.modules.dap.lua'
 end
 
 return C
