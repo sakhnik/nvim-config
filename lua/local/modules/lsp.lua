@@ -112,7 +112,8 @@ local function setup_lua_ls()
       Lua = {
         runtime = {
           -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-          version = 'LuaJIT',
+          --version = 'LuaJIT',
+          version = 'lua5.4',
           -- Setup your lua path
           path = vim.split(package.path, ';'),
         },
@@ -183,12 +184,18 @@ function C.setup()
       lspconfig[server_name].setup(opts)
     end,
 
-    clangd = setup_clangd,
-    java_language_server = setup_java_ls,
-    lua_ls = setup_lua_ls,
-    jdtls = setup_jdtls,
-    pylsp = setup_pylsp,
+    --clangd = setup_clangd,
+    --java_language_server = setup_java_ls,
+    --lua_ls = setup_lua_ls,
+    --jdtls = setup_jdtls,
+    --pylsp = setup_pylsp,
   }
+
+  setup_clangd()
+  setup_java_ls()
+  setup_lua_ls()
+  setup_jdtls()
+  setup_pylsp()
 
   -- Setup nvim-cmp.
   local has_words_before = function()
