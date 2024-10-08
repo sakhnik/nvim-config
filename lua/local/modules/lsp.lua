@@ -185,14 +185,13 @@ function C.setup()
     end,
 
     --clangd = setup_clangd,
-    --java_language_server = setup_java_ls,
+    java_language_server = setup_java_ls,
     --lua_ls = setup_lua_ls,
     --jdtls = setup_jdtls,
     --pylsp = setup_pylsp,
   }
 
   setup_clangd()
-  setup_java_ls()
   setup_lua_ls()
   setup_jdtls()
   setup_pylsp()
