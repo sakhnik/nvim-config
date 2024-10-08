@@ -100,7 +100,7 @@ return function()
     end
 
     -- A couple of exceptions not directly related to a plugin installation
-    if module:find("mason%-lspconfig%.server_configurations") or module:find("jsregexp") then
+    if module:find("lspconfig%.server_configurations") or module:find("jsregexp") then
       return res
     end
     -- If neovim starts with this message, and Paq installs nothing,
