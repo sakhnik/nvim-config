@@ -35,6 +35,9 @@ local config = {
   cmd = {'jdtls', '-data', workspace_dir},
   root_dir = vim.fs.dirname(vim.fs.find({'gradlew', '.git', '.hg', 'mvnw'}, { upward = true })[1]),
   on_attach = configureBuffer,
+  handlers = {
+    ["language/status"] = function() end,
+  },
   settings = {
     java = {
       configuration = {
@@ -62,7 +65,7 @@ local bundles = {
 }
 vim.list_extend(bundles, vim.split(vim.fn.glob("/w/nvim/vscode-java-test/server/*.jar", 1), "\n"))
 
-config['init_options'] = {
+config.init_options = {
   bundles = bundles;
 }
 
