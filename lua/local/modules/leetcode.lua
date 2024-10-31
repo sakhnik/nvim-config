@@ -2,7 +2,6 @@ local C = {}
 
 C.plugins = {
   "MunifTanjim/nui.nvim",
-  "rcarriga/nvim-notify",
   "kawre/leetcode.nvim",
 }
 

@@ -8,6 +8,7 @@ return function()
   local modules = {
     require'local.modules.color',
     require'local.modules.vim',
+    require'local.modules.notify',
     require'local.modules.mytelescope',
     require'local.modules.fs',
     require'local.modules.lsp',
