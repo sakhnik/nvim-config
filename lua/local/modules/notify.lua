@@ -6,7 +6,9 @@ return {
 
   setup = function()
     require'fidget'.setup {
-      -- options
+      notification = {
+        override_vim_notify = true,
+      }
     }
   end,
 }
