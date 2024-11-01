@@ -44,6 +44,12 @@ vim.o.keymap  = 'uk'
 vim.o.iminsert = 0
 vim.o.imsearch = 0
 
+-- Neovide GUI
+if vim.g.neovide then
+  vim.g.neovide_cursor_animation_length = 0.0
+  vim.g.neovide_cursor_trail_size = 0.0
+end
+
 -- Forget about ex mode
 vim.keymap.set('', 'Q', function() end, {})
 
