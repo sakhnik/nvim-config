@@ -48,6 +48,15 @@ vim.o.imsearch = 0
 if vim.g.neovide then
   vim.g.neovide_cursor_animation_length = 0.0
   vim.g.neovide_cursor_trail_size = 0.0
+  vim.o.guifont = "VictorMono NF:h28"
+
+  -- Compatibility mappings for children
+  -- Copy selected text with Ctrl-Shift-C
+  vim.api.nvim_set_keymap("v", "<C-S-c>", '"+y', { noremap = true, silent = true })
+  -- Paste with Ctrl-Shift-V
+  vim.api.nvim_set_keymap("i", "<C-S-v>", '<C-r>+', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap("n", "<C-S-v>", '"+P', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap("v", "<C-S-v>", '"+P', { noremap = true, silent = true })
 end
 
 -- Forget about ex mode
