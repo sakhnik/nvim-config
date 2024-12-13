@@ -31,8 +31,8 @@ if vim.fn.has('win32') == 1 then
   vim.o.shellslash = false
 end
 
-cmd [[let mapleader = ' ']]
-cmd [[let maplocalleader = ' ']]
+vim.g.mapleader = ' '
+vim.g.maplocalleader = '\\'
 
 vim.o.lazyredraw = true
 vim.o.laststatus = 2
@@ -71,16 +71,4 @@ vim.keymap.set('n', '<Leader><space>', [[/\s\+$\| \+\ze\t<cr>]], {noremap = true
 
 require'local.digraphs'
 require'local.autocmds'
-
--- Do the rest asynchronously because plugin downloading may be required
-local function async_part()
-  require'local.plugins'()
-end
-
-local co = coroutine.create(function()
-  local ok, res = pcall(async_part)
-  if not ok then
-    error(res)
-  end
-end)
-coroutine.resume(co)
+require'config.lazy'

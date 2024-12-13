@@ -1,14 +1,11 @@
 return {
-  plugins = {
-    --"rcarriga/nvim-notify",
+  {
     'j-hui/fidget.nvim',
-  },
-
-  setup = function()
-    require'fidget'.setup {
+    priority = 900,
+    opts = {
       notification = {
         override_vim_notify = true,
       }
     }
-  end,
+  }
 }

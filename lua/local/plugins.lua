@@ -6,16 +6,6 @@ local cmd = vim.api.nvim_command
 return function()
 
   local modules = {
-    require'local.modules.color',
-    require'local.modules.vim',
-    require'local.modules.notify',
-    require'local.modules.mytelescope',
-    require'local.modules.fs',
-    require'local.modules.lsp',
-    require'local.modules.treesitter',
-    require'local.modules.term',
-    require'local.modules.quickfix',
-    require'local.modules.dap',
     require'local.modules.leetcode',
     require'local.modules.wiki',
     require'local.modules.db',
