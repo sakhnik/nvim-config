@@ -1,4 +1,5 @@
 return {
-  { 'yorickpeterse/nvim-pqf', },
-  { 'sakhnik/make-async.nvim', },
+  { 'yorickpeterse/nvim-pqf', opts = {} },
+  { 'sakhnik/make-async.nvim', opts = {} },
+  { 'sakhnik/nvim-gdb' },
 }
