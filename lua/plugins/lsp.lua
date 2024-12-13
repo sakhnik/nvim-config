@@ -199,7 +199,9 @@ return {
     config = function()
       require"mason-lspconfig".setup_handlers {
         function (server_name)
-          require('lspconfig')[server_name].setup {}
+          if server_name ~= 'lua_ls' and server_name ~= 'clangd' then
+            require('lspconfig')[server_name].setup {}
+          end
         end,
       }
     end,
