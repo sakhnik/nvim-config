@@ -7,7 +7,6 @@ return function()
 
   local modules = {
     require'local.modules.leetcode',
-    require'local.modules.wiki',
     require'local.modules.db',
   }
 
