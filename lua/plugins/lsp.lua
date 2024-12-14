@@ -1,5 +1,14 @@
 local cmd = vim.api.nvim_command
 
+local lsp_configs = {
+  lua_ls = {
+  },
+
+  clangd = {
+    cmd = { "clangd", "--completion-style=detailed", "--enable-config", "--log=error" }
+  }
+}
+
 --function C.show_line_diagnostics()
 --  local opts = {
 --    focusable = false,
@@ -71,6 +80,7 @@ end
 return {
   {
     'neovim/nvim-lspconfig',
+    --version = '*',
     dependencies = {
       {
         "folke/lazydev.nvim",
@@ -88,10 +98,9 @@ return {
       vim.lsp.set_log_level("ERROR")
       vim.diagnostic.config({ severity_sort = true, })
 
-      require'lspconfig'.lua_ls.setup {}
-      require'lspconfig'.clangd.setup {
-        cmd = { "clangd", "--completion-style=detailed", "--enable-config", "--log=error" }
-      }
+      for name, cfg in pairs(lsp_configs) do
+        require'lspconfig'[name].setup(cfg)
+      end
 
       vim.api.nvim_create_autocmd('LspAttach', {
         callback = function(--[[args]])
@@ -199,7 +208,7 @@ return {
     config = function()
       require"mason-lspconfig".setup_handlers {
         function (server_name)
-          if server_name ~= 'lua_ls' and server_name ~= 'clangd' then
+          if not lsp_configs[server_name] then
             require('lspconfig')[server_name].setup {}
           end
         end,

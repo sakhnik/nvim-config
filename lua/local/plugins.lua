@@ -7,7 +7,6 @@ return function()
 
   local modules = {
     require'local.modules.leetcode',
-    require'local.modules.db',
   }
 
   local paqpath = vim.fn.stdpath('data') .. '/site/pack/paqs/opt/paq-nvim'
