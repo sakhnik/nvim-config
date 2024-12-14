@@ -35,8 +35,21 @@ return {
           -- Instead of true it can also be a list of languages
           additional_vim_regex_highlighting = false,
         },
+
+        matchup = {
+          enable = true,
+        },
       }
     end,
+
+    dependencies = {
+      {
+        'andymass/vim-matchup',
+        init = function()
+          vim.g.matchup_matchparen_offscreen = { method = "popup" }
+        end
+      },
+    },
   },
 
   {

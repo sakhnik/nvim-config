@@ -23,11 +23,11 @@ return {
       vim.g.vim_markdown_folding_disabled = true
     end
   },
-  { 'andymass/vim-matchup'; },
   { 'majutsushi/tagbar'; },
   { 'Kris2k/A.vim'; },
   {
     'ledger/vim-ledger',
+    ft = 'ledger',
     init = function()
       vim.g.ledger_bin = 'ledger'
       vim.g.ledger_date_format = '%Y-%m-%d'
