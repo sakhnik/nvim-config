@@ -37,10 +37,10 @@ return {
 
     config = function()
       if vim.fn.executable('gdb') == 1 then
-        require('local.modules.dap.cpp')
+        require('dapcfg.cpp')
       end
 
-      require'local.modules.dap.lua'
+      require'dapcfg.lua'
     end,
   },
 
