@@ -41,7 +41,11 @@ return {
   },
 
   -- Keymap online help
-  { 'folke/which-key.nvim', opts = {} },
+  {
+    'folke/which-key.nvim',
+    version = '*',
+    opts = {}
+  },
   {
     'LittleMorph/copyright-updater.nvim',
     event = 'InsertEnter',
