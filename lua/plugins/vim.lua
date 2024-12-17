@@ -2,7 +2,7 @@ return {
   { 'tpope/vim-fugitive'; },
   { 'tpope/vim-eunuch'; },            -- :SudoWrite
   { 'tpope/vim-repeat'; },            -- Repeat mapping with .
-  --{ 'tpope/vim-sleuth'; },            -- Set buffer options heuristically
+  { 'tpope/vim-sleuth'; },            -- Set buffer options heuristically
   { 'tpope/vim-unimpaired'; },        -- ]q, ]a etc
   { 'tpope/vim-abolish'; },           -- coerce cr_, crc etc
   { 'kylechui/nvim-surround', opts = {} },      -- Movements s', s(
@@ -15,12 +15,6 @@ return {
   },
   { 'raimondi/delimitmate'; },
   { 'wellle/targets.vim'; },
-  {
-    'sheerun/vim-polyglot',
-    init = function()
-      vim.g.polyglot_disabled = {'sensible'}
-    end
-  },
   { 'mh21/errormarker.vim'; },
   { 'sirtaj/vim-openscad'; },
   {
