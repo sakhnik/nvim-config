@@ -6,7 +6,13 @@ return {
   { 'tpope/vim-unimpaired'; },        -- ]q, ]a etc
   { 'tpope/vim-abolish'; },           -- coerce cr_, crc etc
   { 'kylechui/nvim-surround', opts = {} },      -- Movements s', s(
-  { 'bronson/vim-visual-star-search'; },
+  {
+    'bronson/vim-visual-star-search',
+    keys = {
+      { '#', mode = 'x' },
+      { '*', mode = 'x' },
+    }
+  },
   { 'raimondi/delimitmate'; },
   { 'wellle/targets.vim'; },
   {
@@ -19,12 +25,15 @@ return {
   { 'sirtaj/vim-openscad'; },
   {
     'plasticboy/vim-markdown',
+    ft = 'markdown',
     init = function()
       vim.g.vim_markdown_folding_disabled = true
     end
   },
-  { 'majutsushi/tagbar'; },
-  { 'Kris2k/A.vim'; },
+  {
+    'Kris2k/A.vim',
+    cmd = {"A", "AS"},
+  },
   {
     'ledger/vim-ledger',
     ft = 'ledger',
@@ -48,7 +57,7 @@ return {
   },
   {
     'LittleMorph/copyright-updater.nvim',
-    event = 'InsertEnter',
+    event = 'BufModifiedSet',
     opts = {}
   },
 }
