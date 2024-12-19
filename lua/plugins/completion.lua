@@ -3,6 +3,32 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+local function cmp_next(fallback)
+  local luasnip = require"luasnip"
+  local cmp = require'cmp'
+  if cmp.visible() then
+    cmp.select_next_item()
+  elseif luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+  elseif has_words_before() then
+    cmp.complete()
+  else
+    fallback()
+  end
+end
+
+local function cmp_prev(fallback)
+  local luasnip = require"luasnip"
+  local cmp = require'cmp'
+  if cmp.visible() then
+    cmp.select_prev_item()
+  elseif luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+  else
+    fallback()
+  end
+end
+
 return {
   {
     'hrsh7th/nvim-cmp',
@@ -37,37 +63,11 @@ return {
         ['<C-Space>'] = require'cmp'.mapping.complete(),
         ['<C-e>'] = require'cmp'.mapping.close(),
         ['<CR>'] = require'cmp'.mapping.confirm({ select = true }),
-        ["<Tab>"] = require'cmp'.mapping(function(fallback)
-          local luasnip = require"luasnip"
-          local cmp = require'cmp'
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-          elseif has_words_before() then
-            cmp.complete()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-        ["<S-Tab>"] = require'cmp'.mapping(function(fallback)
-          local luasnip = require"luasnip"
-          local cmp = require'cmp'
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-        -- ['<Tab>'] = function(fallback)
-        --   if cmp.visible() then
-        --     cmp.select_next_item()
-        --   else
-        --     fallback()
-        --   end
-        -- end
+        ['<c-y>'] = require'cmp'.mapping.confirm({ select = true }),
+        ['<Tab>'] = require'cmp'.mapping(cmp_next, { "i", "s" }),
+        ['<S-Tab>'] = require'cmp'.mapping(cmp_prev, { "i", "s" }),
+        ['<c-n>'] = require'cmp'.mapping(cmp_next, { 'i', 's' }),
+        ['<c-p>'] = require'cmp'.mapping(cmp_prev, { "i", "s" }),
       },
       sources = {
         { name = 'nvim_lsp' },
