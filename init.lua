@@ -6,8 +6,6 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.netrw_liststyle = 3
 
-local cmd = vim.api.nvim_command
-
 vim.o.fileencodings = 'utf-8,cp1251,default'
 vim.o.wildmode = 'longest,list,full'
 vim.o.diffopt = vim.o.diffopt .. ',iwhite'
@@ -64,7 +62,7 @@ vim.api.nvim_create_autocmd("UIEnter", {
 })
 
 -- Forget about ex mode
-vim.keymap.set('', 'Q', function() end, {})
+vim.keymap.set('', 'Q', function() end)
 
 -- Find tailing white spaces
 vim.keymap.set('n', '<Leader><space>', [[/\s\+$\| \+\ze\t<cr>]], {noremap = true})
