@@ -1,3 +1,12 @@
+local last_config = nil
+
+local function debug_last_session()
+  if last_config then
+    require'dap'.run(last_config)
+  else
+    require'dap'.continue()
+  end
+end
 
 local function create_dap_hover()
   local view = require("dap.ui.widgets").hover()
@@ -28,6 +37,11 @@ end
 local function configure_dap()
   local dap = require('dap')
   local timer_id = -1
+
+  ---@param session dap.Session
+  dap.listeners.after.event_initialized["store_config"] = function(session)
+    last_config = session.config
+  end
 
   local function restore_keymaps()
     vim.keymap.del('n', '<LeftMouse>')
@@ -71,8 +85,9 @@ return {
   {
     'mfussenegger/nvim-dap',
     keys = {
-      { '<leader>bb', function() require'dap'.toggle_breakpoint() end, noremap = true, desc = 'DAP toggle breakpoint' },
-      { '<leader>bc', function() require'dap'.continue() end, noremap = true, desc = 'DAP continue' },
+      { '<leader>bb', require'dap'.toggle_breakpoint, noremap = true, desc = 'DAP toggle breakpoint' },
+      { '<leader>bc', debug_last_session, noremap = true, desc = 'DAP last session' },
+      { '<leader>bC', require'dap'.continue, noremap = true, desc = 'DAP continue' },
     },
     dependencies = {
       { 'nvim-neotest/nvim-nio', },
