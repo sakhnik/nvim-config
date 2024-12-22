@@ -101,7 +101,11 @@ return {
       },
 
       { 'theHamsta/nvim-dap-virtual-text', opts = {} },
-      { 'mfussenegger/nvim-dap-python', },
+
+      {
+        'mfussenegger/nvim-dap-python',
+        ft = 'python',
+      },
     },
 
     config = function()
