@@ -6,7 +6,20 @@ local lsp_configs = {
 
   clangd = {
     cmd = { "clangd", "--completion-style=detailed", "--enable-config", "--log=error" }
-  }
+  },
+
+  pylsp = {
+    settings = {
+      pylsp = {
+        plugins = {
+          pycodestyle = {
+            ignore = {'E501'},
+            maxLineLength = 100
+          }
+        }
+      },
+    }
+  },
 }
 
 --function C.show_line_diagnostics()
@@ -46,25 +59,6 @@ local lsp_configs = {
 --  -- Set completeopt to have a better completion experience
 --  cmd "setlocal completeopt=menu,menuone,noselect"
 --
---end
---
---local function setup_pylsp()
---  local opts = {
---    on_attach = C.configureBuffer,
---    capabilities = get_caps(),
---    cmd = { "pylsp" },
---    settings = {
---      pylsp = {
---        plugins = {
---          pycodestyle = {
---            ignore = {'E501'},
---            maxLineLength = 100
---          }
---        }
---      },
---    }
---  }
---  require'lspconfig'.pylsp.setup(opts)
 --end
 
 
