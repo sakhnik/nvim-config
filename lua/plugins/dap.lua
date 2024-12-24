@@ -85,9 +85,9 @@ return {
   {
     'mfussenegger/nvim-dap',
     keys = {
-      { '<leader>bb', require'dap'.toggle_breakpoint, noremap = true, desc = 'DAP toggle breakpoint' },
+      { '<leader>bb', function() require'dap'.toggle_breakpoint() end, noremap = true, desc = 'DAP toggle breakpoint' },
       { '<leader>bc', debug_last_session, noremap = true, desc = 'DAP last session' },
-      { '<leader>bC', require'dap'.continue, noremap = true, desc = 'DAP continue' },
+      { '<leader>bC', function() require'dap'.continue() end, noremap = true, desc = 'DAP continue' },
     },
     dependencies = {
       { 'nvim-neotest/nvim-nio', },

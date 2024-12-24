@@ -13,7 +13,7 @@ return {
       border = 'rounded',
     },
     keys = {
-      { '<A-i>', require"FTerm".toggle },
+      { '<A-i>', function() require"FTerm".toggle() end },
       { '<A-i>', function()
         vim.api.nvim_input('<C-\\><C-n>')
         require("FTerm").toggle()
