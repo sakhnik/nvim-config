@@ -40,55 +40,58 @@ return {
       { 'L3MON4D3/LuaSnip', },
       { 'saadparwaiz1/cmp_luasnip', },
     },
-    opts = {
-      enabled = function()
-        return vim.api.nvim_get_option_value('buftype', {buf = 0}) ~= 'prompt'
-          and vim.api.nvim_get_option_value('filetype', {buf = 0}) ~= 'ledger'
-      end,
-      snippet = {
-        expand = function(args)
-          -- For `vsnip` user.
-          --vim.fn["vsnip#anonymous"](args.body)
-
-          -- For `luasnip` user.
-          require'luasnip'.lsp_expand(args.body)
-
-          -- For `ultisnips` user.
-          -- vim.fn["UltiSnips#Anon"](args.body)
+    config = function()
+      local cmp = require'cmp'
+      cmp.setup {
+        enabled = function()
+          return vim.api.nvim_get_option_value('buftype', {buf = 0}) ~= 'prompt'
+            and vim.api.nvim_get_option_value('filetype', {buf = 0}) ~= 'ledger'
         end,
-      },
-      mapping = {
-        ['<C-d>'] = function() require'cmp'.mapping.scroll_docs(-4) end,
-        ['<C-f>'] = function() require'cmp'.mapping.scroll_docs(4) end,
-        ['<C-Space>'] = function() require'cmp'.mapping.complete() end,
-        ['<C-e>'] = function() require'cmp'.mapping.close() end,
-        ['<CR>'] = function() require'cmp'.mapping.confirm({ select = true }) end,
-        ['<c-y>'] = function() require'cmp'.mapping.confirm({ select = true }) end,
-        ['<Tab>'] = function() require'cmp'.mapping(cmp_next, { "i", "s" }) end,
-        ['<S-Tab>'] = function() require'cmp'.mapping(cmp_prev, { "i", "s" }) end,
-        ['<c-n>'] = function() require'cmp'.mapping(cmp_next, { 'i', 's' }) end,
-        ['<c-p>'] = function() require'cmp'.mapping(cmp_prev, { "i", "s" }) end,
-      },
-      sources = {
-        { name = 'nvim_lsp' },
-        { name = 'nvim_lsp_signature_help' },
+        snippet = {
+          expand = function(args)
+            -- For `vsnip` user.
+            --vim.fn["vsnip#anonymous"](args.body)
 
-        -- For vsnip user.
-        -- { name = 'vsnip' },
+            -- For `luasnip` user.
+            require'luasnip'.lsp_expand(args.body)
 
-        -- For luasnip user.
-        { name = 'luasnip' },
-
-        {
-          name = "lazydev",
-          group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+            -- For `ultisnips` user.
+            -- vim.fn["UltiSnips#Anon"](args.body)
+          end,
         },
+        mapping = {
+          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.close(),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          ['<c-y>'] = cmp.mapping.confirm({ select = true }),
+          ['<Tab>'] = cmp.mapping(cmp_next, { "i", "s" }),
+          ['<S-Tab>'] = cmp.mapping(cmp_prev, { "i", "s" }),
+          ['<c-n>'] = cmp.mapping(cmp_next, { 'i', 's' }),
+          ['<c-p>'] = cmp.mapping(cmp_prev, { "i", "s" }),
+        },
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'nvim_lsp_signature_help' },
 
-        -- For ultisnips user.
-        -- { name = 'ultisnips' },
+          -- For vsnip user.
+          -- { name = 'vsnip' },
 
-        { name = 'buffer' },
-      },
-    }
+          -- For luasnip user.
+          { name = 'luasnip' },
+
+          {
+            name = "lazydev",
+            group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+          },
+
+          -- For ultisnips user.
+          -- { name = 'ultisnips' },
+
+          { name = 'buffer' },
+        },
+      }
+    end
   },
 }
