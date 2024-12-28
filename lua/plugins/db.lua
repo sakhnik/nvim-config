@@ -14,8 +14,6 @@ return {
     init = function()
       -- Your DBUI configuration
       vim.g.db_ui_use_nerd_fonts = 1
-    end,
-    config = function()
       vim.api.nvim_create_autocmd("FileType", {
         pattern = {'sql', 'mysql', 'plsql'},
         callback = function(_)
