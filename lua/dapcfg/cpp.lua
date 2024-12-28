@@ -47,8 +47,8 @@ dap.configurations.cpp = {
     end,
     args = function()
       local args_str = vim.fn.input({
-          prompt = 'Arguments: ',
-        })
+        prompt = 'Arguments: ',
+      })
       return vim.split(args_str, ' +')
     end,
   },
