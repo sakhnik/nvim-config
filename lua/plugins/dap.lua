@@ -119,5 +119,8 @@ return {
     end,
   },
 
-  { 'jbyuki/one-small-step-for-vimkind', },
+  {
+    'jbyuki/one-small-step-for-vimkind',
+    lazy = true,
+  },
 }
