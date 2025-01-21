@@ -67,7 +67,7 @@ return {
     'neovim/nvim-lspconfig',
     --version = '*',
     dependencies = {
-      { 'hrsh7th/nvim-cmp', },
+      --{ 'hrsh7th/nvim-cmp', },
 
       {
         "folke/lazydev.nvim",
