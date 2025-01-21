@@ -3,7 +3,7 @@ return {
   { 'tpope/vim-eunuch'; },            -- :SudoWrite
   { 'tpope/vim-repeat'; },            -- Repeat mapping with .
   { 'tpope/vim-sleuth'; },            -- Set buffer options heuristically
-  { 'tpope/vim-unimpaired'; },        -- ]q, ]a etc
+  { 'tpope/vim-unimpaired'; event = "VeryLazy" },        -- ]q, ]a etc
   { 'tpope/vim-abolish'; },           -- coerce cr_, crc etc
   {
     -- Movements s', s(
