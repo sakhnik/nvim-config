@@ -54,6 +54,7 @@ return {
 
   {
     'RRethy/vim-illuminate',
+    event = 'BufWinEnter',
     config = function()
       require'illuminate'.configure({
         -- providers: provider used to get references in the buffer, ordered by priority
@@ -69,9 +70,6 @@ return {
 --  { 'nvim-treesitter/nvim-treesitter', build = function() pcall(vim.api.nvim_command, ':TSUpdate') end },
 --  'nvim-treesitter/playground',
 --  'nvim-treesitter/nvim-treesitter-textobjects',
---
---  -- Highlight usage of a variable under cursor
---  'RRethy/vim-illuminate',
 --}
 --
 --function C.setup()
@@ -108,11 +106,6 @@ return {
 --      additional_vim_regex_highlighting = false,
 --    },
 --  }
---
---  require('illuminate').configure({
---    -- providers: provider used to get references in the buffer, ordered by priority
---    providers = { 'lsp', 'treesitter', },
---  })
 --
 --  require'nvim-treesitter.configs'.setup {
 --    textobjects = {
