@@ -5,7 +5,13 @@ return {
   { 'tpope/vim-sleuth'; },            -- Set buffer options heuristically
   { 'tpope/vim-unimpaired'; },        -- ]q, ]a etc
   { 'tpope/vim-abolish'; },           -- coerce cr_, crc etc
-  { 'kylechui/nvim-surround', opts = {} },      -- Movements s', s(
+  {
+    -- Movements s', s(
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "VeryLazy",
+    opts = {},
+  },
   {
     'bronson/vim-visual-star-search',
     keys = {
