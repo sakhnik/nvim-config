@@ -22,39 +22,22 @@ local lsp_configs = {
   },
 }
 
---function C.show_line_diagnostics()
---  local opts = {
---    focusable = false,
---    close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
---    border = 'rounded',
---    source = 'always',  -- show source in diagnostic popup window
---    prefix = ' '
---  }
---  vim.diagnostic.open_float(nil, opts)
---end
---
+local function show_line_diagnostics()
+  local opts = {
+    focusable = false,
+    close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+    border = 'rounded',
+    source = 'always',  -- show source in diagnostic popup window
+    prefix = ' '
+  }
+  vim.diagnostic.open_float(nil, opts)
+end
+
 --function C.configureBuffer() --(client, bufnr)
---  vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 --
 --  local opts = {noremap = true, silent = true, buffer = true}
---  vim.keymap.set('n', 'gd', vim.lsp.buf.declaration, opts)
---  vim.keymap.set('n', '<c-]>', vim.lsp.buf.definition, opts)
---  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
---  vim.keymap.set('n', 'gD', vim.lsp.buf.implementation, opts)
---  vim.keymap.set('n', '<c-k>', vim.lsp.buf.signature_help, opts)
---  vim.keymap.set('n', '1gD', vim.lsp.buf.type_definition, opts)
---  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
---  vim.keymap.set('n', 'g0', vim.lsp.buf.document_symbol, opts)
---  vim.keymap.set('n', 'gW', vim.lsp.buf.workspace_symbol, opts)
---  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
---  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 --  vim.keymap.set("n", "<space>q", function() vim.diagnostic.setqflist({open = true}) end, opts)
 --  vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
---
---  vim.api.nvim_create_autocmd("CursorHold", {
---    callback = function() require'local.modules.lsp'.show_line_diagnostics() end,
---    buffer = vim.api.nvim_get_current_buf(),
---  })
 --
 --  -- Set completeopt to have a better completion experience
 --  cmd "setlocal completeopt=menu,menuone,noselect"
@@ -97,6 +80,11 @@ return {
           -- Avoid showing extra message when using completion
           cmd "setlocal shortmess+=c"
           vim.wo.signcolumn = 'yes'
+
+          vim.api.nvim_create_autocmd("CursorHold", {
+            callback = show_line_diagnostics,
+            buffer = vim.api.nvim_get_current_buf(),
+          })
         end
       })
     end,
