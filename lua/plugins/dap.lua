@@ -28,8 +28,16 @@ end
 local function on_left_click()
   local mpos = vim.fn.getmousepos()
   if vim.api.nvim_win_is_valid(mpos.winid) then
+    local buf = vim.api.nvim_win_get_buf(mpos.winid)
+    if vim.fn.buflisted(buf) == 0 then
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<LeftMouse>", true, true, true), "n", true)
+      return
+    end
     vim.api.nvim_set_current_win(mpos.winid)
-    vim.api.nvim_win_set_cursor(mpos.winid, {mpos.line, mpos.column - 1})
+    if not pcall(vim.api.nvim_win_set_cursor, mpos.winid, {mpos.line, mpos.column - 1}) then
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<LeftMouse>", true, true, true), "n", true)
+      return
+    end
   end
   create_dap_hover()
 end
