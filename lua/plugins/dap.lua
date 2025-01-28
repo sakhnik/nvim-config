@@ -13,9 +13,9 @@ local function create_dap_hover()
   local api = vim.api
 
   local function close_hover()
-      if api.nvim_win_is_valid(view.win) then
-        api.nvim_win_close(view.win, true)
-      end
+    if api.nvim_win_is_valid(view.win) then
+      api.nvim_win_close(view.win, true)
+    end
   end
 
   -- Close the hover when the buffer is left
@@ -78,14 +78,14 @@ local function configure_dap()
   dap.listeners.after['event_initialized']['me'] = function()
     if timer_id == -1 then
       -- Set keymaps like in nvim-gdb
-      vim.keymap.set('n', '<f4>', require'dap'.run_to_cursor, { noremap = true, silent = true })
-      vim.keymap.set('n', '<f5>', require'dap'.continue, { noremap = true, silent = true })
-      vim.keymap.set('n', '<f8>', require'dap'.set_breakpoint, { noremap = true, silent = true })
-      vim.keymap.set('n', '<f9>', create_dap_hover, { noremap = true, silent = true })
-      vim.keymap.set('n', '<f10>', require'dap'.step_over, { noremap = true, silent = true })
-      vim.keymap.set('n', '<f11>', require'dap'.step_into, { noremap = true, silent = true })
-      vim.keymap.set('n', '<f12>', require'dap'.step_out, { noremap = true, silent = true })
-      vim.keymap.set('n', '<LeftMouse>', on_left_click, { noremap = true, silent = true })
+      vim.keymap.set('n', '<f4>', require'dap'.run_to_cursor, { silent = true })
+      vim.keymap.set('n', '<f5>', require'dap'.continue, { silent = true })
+      vim.keymap.set('n', '<f8>', require'dap'.set_breakpoint, { silent = true })
+      vim.keymap.set('n', '<f9>', create_dap_hover, { silent = true })
+      vim.keymap.set('n', '<f10>', require'dap'.step_over, { silent = true })
+      vim.keymap.set('n', '<f11>', require'dap'.step_into, { silent = true })
+      vim.keymap.set('n', '<f12>', require'dap'.step_out, { silent = true })
+      vim.keymap.set('n', '<LeftMouse>', on_left_click, { silent = true })
 
       timer_id = vim.fn.timer_start(1000, check_restore_keymaps)
     end
@@ -98,9 +98,9 @@ return {
   {
     'mfussenegger/nvim-dap',
     keys = {
-      { '<leader>bb', function() require'dap'.toggle_breakpoint() end, noremap = true, desc = 'DAP toggle breakpoint' },
-      { '<leader>bc', debug_last_session, noremap = true, desc = 'DAP last session' },
-      { '<leader>bC', function() require'dap'.continue() end, noremap = true, desc = 'DAP continue' },
+      { '<leader>bb', function() require'dap'.toggle_breakpoint() end, desc = 'DAP toggle breakpoint' },
+      { '<leader>bc', debug_last_session, desc = 'DAP last session' },
+      { '<leader>bC', function() require'dap'.continue() end, desc = 'DAP continue' },
     },
     dependencies = {
       { 'nvim-neotest/nvim-nio', },
@@ -109,7 +109,7 @@ return {
         'rcarriga/nvim-dap-ui',
         opts = {},
         keys = {
-          { '<leader>D', function() require'dapui'.toggle() end, noremap = true, desc = 'DAP UI' },
+          { '<leader>D', function() require'dapui'.toggle() end, desc = 'DAP UI' },
         }
       },
 
