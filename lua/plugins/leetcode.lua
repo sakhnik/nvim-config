@@ -11,6 +11,6 @@ return {
   cmd = 'Leet',
   opts = {
     -- configuration goes here
-    lang = 'cpp'
+    lang = vim.env.LEET_LANG and vim.env.LEET_LANG or 'cpp'
   },
 }
