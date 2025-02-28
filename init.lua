@@ -65,7 +65,10 @@ vim.api.nvim_create_autocmd("UIEnter", {
 vim.keymap.set('', 'Q', function() end)
 
 -- Find tailing white spaces
-vim.keymap.set('n', '<Leader><space>', [[/\s\+$\| \+\ze\t<cr>]], {noremap = true})
+vim.keymap.set('n', '<Leader><space>', [[/\s\+$\| \+\ze\t<cr>]], { noremap = true })
+
+-- Copy everything to the clipboard
+vim.keymap.set('n', '<leader>yy', [[:%y+<cr>]], { noremap = true })
 
 require'local.digraphs'
 require'local.autocmds'
