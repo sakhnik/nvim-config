@@ -50,7 +50,7 @@ return {
     'neovim/nvim-lspconfig',
     --version = '*',
     dependencies = {
-      --{ 'hrsh7th/nvim-cmp', },
+      { 'saghen/blink.cmp' },
 
       {
         "folke/lazydev.nvim",
@@ -68,7 +68,7 @@ return {
       vim.lsp.set_log_level("ERROR")
       vim.diagnostic.config({ severity_sort = true, })
 
-      local capabilities = require'cmp_nvim_lsp'.default_capabilities()
+      local capabilities = require'blink.cmp'.get_lsp_capabilities()
       for server, config in pairs(lsp_configs) do
         config.capabilities = capabilities
         require'lspconfig'[server].setup(config)
@@ -94,8 +94,9 @@ return {
 
   {
     'williamboman/mason-lspconfig.nvim',
+    dependencies = { 'saghen/blink.cmp' },
     config = function()
-      local capabilities = require'cmp_nvim_lsp'.default_capabilities()
+      local capabilities = require'blink.cmp'.get_lsp_capabilities()
       require"mason-lspconfig".setup_handlers {
         function (server_name)
           if not lsp_configs[server_name] then
