@@ -22,17 +22,6 @@ local lsp_configs = {
   },
 }
 
-local function show_line_diagnostics()
-  local opts = {
-    focusable = false,
-    close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-    border = 'rounded',
-    source = 'always',  -- show source in diagnostic popup window
-    prefix = ' '
-  }
-  vim.diagnostic.open_float(nil, opts)
-end
-
 --function C.configureBuffer() --(client, bufnr)
 --
 --  local opts = {noremap = true, silent = true, buffer = true}
@@ -66,7 +55,7 @@ return {
     },
     config = function()
       vim.lsp.set_log_level("ERROR")
-      vim.diagnostic.config({ severity_sort = true, })
+      vim.diagnostic.config({ severity_sort = true, virtual_lines = { current_line = true } })
 
       local capabilities = require'blink.cmp'.get_lsp_capabilities()
       for server, config in pairs(lsp_configs) do
@@ -80,11 +69,6 @@ return {
           -- Avoid showing extra message when using completion
           cmd "setlocal shortmess+=c"
           vim.wo.signcolumn = 'yes'
-
-          vim.api.nvim_create_autocmd("CursorHold", {
-            callback = show_line_diagnostics,
-            buffer = vim.api.nvim_get_current_buf(),
-          })
         end
       })
     end,
