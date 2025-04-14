@@ -39,8 +39,6 @@ return {
     'neovim/nvim-lspconfig',
     --version = '*',
     dependencies = {
-      { 'saghen/blink.cmp' },
-
       {
         "folke/lazydev.nvim",
         ft = "lua", -- only load on lua files
@@ -57,10 +55,9 @@ return {
       vim.lsp.set_log_level("ERROR")
       vim.diagnostic.config({ severity_sort = true, virtual_lines = { current_line = true } })
 
-      local capabilities = require'blink.cmp'.get_lsp_capabilities()
       for server, config in pairs(lsp_configs) do
-        config.capabilities = capabilities
-        require'lspconfig'[server].setup(config)
+        vim.lsp.config(server, config)
+        vim.lsp.enable(server)
       end
 
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -78,15 +75,11 @@ return {
 
   {
     'williamboman/mason-lspconfig.nvim',
-    dependencies = { 'saghen/blink.cmp' },
     config = function()
-      local capabilities = require'blink.cmp'.get_lsp_capabilities()
       require"mason-lspconfig".setup_handlers {
         function (server_name)
           if not lsp_configs[server_name] then
-            require('lspconfig')[server_name].setup {
-              capabilities = capabilities
-            }
+            vim.lsp.enable(server_name)
           end
         end,
       }
