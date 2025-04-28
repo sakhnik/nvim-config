@@ -20,6 +20,8 @@ return {
         noremap = true, silent = true, desc = 'Telescope: command history'},
       { "<leader>gg", function() require'telescope'.extensions.live_grep_args.live_grep_args() end,
         noremap = true, silent = true, desc = 'Telescope: live grep' },
+
+      { "<leader>tt", "<Plug>PlenaryTestFile", ft = 'lua', noremap = true, silent = true, desc = 'Plenary: test file' },
     },
     config = function()
       local telescope = require 'telescope'
