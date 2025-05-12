@@ -72,17 +72,5 @@ return {
   },
 
   { 'williamboman/mason.nvim', opts = {} },
-
-  {
-    'williamboman/mason-lspconfig.nvim',
-    config = function()
-      require"mason-lspconfig".setup_handlers {
-        function (server_name)
-          if not lsp_configs[server_name] then
-            vim.lsp.enable(server_name)
-          end
-        end,
-      }
-    end,
-  },
+  { 'williamboman/mason-lspconfig.nvim', opts = { } },
 }
