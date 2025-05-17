@@ -22,18 +22,6 @@ local lsp_configs = {
   },
 }
 
---function C.configureBuffer() --(client, bufnr)
---
---  local opts = {noremap = true, silent = true, buffer = true}
---  vim.keymap.set("n", "<space>q", function() vim.diagnostic.setqflist({open = true}) end, opts)
---  vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
---
---  -- Set completeopt to have a better completion experience
---  cmd "setlocal completeopt=menu,menuone,noselect"
---
---end
-
-
 return {
   {
     'neovim/nvim-lspconfig',
@@ -57,8 +45,10 @@ return {
       vim.diagnostic.handlers.loclist = {
         show = function(_, _, _, opts)
           -- Generally don't want it to open on every update
+          ---@diagnostic disable-next-line: undefined-field
           opts.loclist.open = opts.loclist.open or false
           local winid = vim.api.nvim_get_current_win()
+          ---@diagnostic disable-next-line: undefined-field
           vim.diagnostic.setloclist(opts.loclist)
           vim.api.nvim_set_current_win(winid)
         end
