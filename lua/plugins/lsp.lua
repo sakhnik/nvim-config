@@ -54,6 +54,16 @@ return {
     config = function()
       vim.lsp.set_log_level("ERROR")
       vim.diagnostic.config({ severity_sort = true, virtual_lines = { current_line = true } })
+      vim.diagnostic.handlers.loclist = {
+        show = function(_, _, _, opts)
+          -- Generally don't want it to open on every update
+          opts.loclist.open = opts.loclist.open or false
+          local winid = vim.api.nvim_get_current_win()
+          vim.diagnostic.setloclist(opts.loclist)
+          vim.api.nvim_set_current_win(winid)
+        end
+      }
+      vim.keymap.set("n", "<m-d>", vim.diagnostic.open_float, {noremap = true, silent = true, desc = 'Open floating window with diagnostic info'})
 
       for server, config in pairs(lsp_configs) do
         vim.lsp.config(server, config)
