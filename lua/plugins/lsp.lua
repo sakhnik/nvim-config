@@ -53,7 +53,7 @@ return {
           vim.api.nvim_set_current_win(winid)
         end
       }
-      vim.keymap.set("n", "<m-d>", vim.diagnostic.open_float, {noremap = true, silent = true, desc = 'Open floating window with diagnostic info'})
+      vim.keymap.set("n", "<m-k>", vim.diagnostic.open_float, {noremap = true, silent = true, desc = 'Open floating window with diagnostic info'})
 
       for server, config in pairs(lsp_configs) do
         vim.lsp.config(server, config)
