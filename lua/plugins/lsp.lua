@@ -40,7 +40,7 @@ return {
       },
     },
     config = function()
-      vim.lsp.set_log_level("ERROR")
+      vim.lsp.log.set_level("ERROR")
       vim.diagnostic.config({ severity_sort = true, virtual_lines = { current_line = true } })
       vim.diagnostic.handlers.loclist = {
         show = function(_, _, _, opts)
