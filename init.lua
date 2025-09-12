@@ -23,6 +23,7 @@ vim.o.mouse = 'n'
 vim.o.termguicolors = true
 vim.o.completeopt = 'menu,preview'
 vim.o.shortmess = 'ac'
+vim.o.messagesopt = 'wait:500,history:500'
 if vim.fn.has('win32') == 1 then
   -- 'shellslash' may be necessary for lsp to detect workspace directories
   -- (for lua specifically)
