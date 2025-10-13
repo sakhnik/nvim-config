@@ -3,7 +3,9 @@ return {
     'stevearc/oil.nvim',
     -----@module 'oil'
     -----@type oil.SetupOpts
-    opts = {},
+    opts = {
+      default_file_explorer = false,
+    },
     init = function()
       vim.keymap.set('n', '-', require'oil'.open, { desc = "Open parent directory" })
     end,

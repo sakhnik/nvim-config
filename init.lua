@@ -1,9 +1,9 @@
 -- vim: set et ts=2 sw=2:
 --
 
--- disable netrw in favour of nvim-tree
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- netrw is required for spellfile.vim
+--vim.g.loaded_netrw = 1
+--vim.g.loaded_netrwPlugin = 1
 vim.g.netrw_liststyle = 3
 
 vim.o.fileencodings = 'utf-8,cp1251,default'
