@@ -5,19 +5,16 @@ local function get_shell()
   return os.getenv('SHELL')
 end
 
-return {
-  {
-    'numToStr/FTerm.nvim',
-    opts = {
-      cmd = get_shell(),
-      border = 'rounded',
-    },
-    keys = {
-      { '<A-i>', function() require"FTerm".toggle() end },
-      { '<A-i>', function()
-        vim.api.nvim_input('<C-\\><C-n>')
-        require("FTerm").toggle()
-      end, mode = 't'}
-    },
-  }
+vim.pack.add {
+  { src = 'https://github.com/numToStr/FTerm.nvim', },
 }
+
+require'FTerm'.setup {
+  cmd = get_shell(),
+  border = 'rounded',
+}
+
+vim.keymap.set('n', '<a-i>', function() require"FTerm".toggle() end,
+  {noremap = true, silent = true, desc = 'Toggle terminal'})
+vim.keymap.set('t', '<a-i>', function() vim.api.nvim_input('<C-\\><C-n>'); require("FTerm").toggle() end,
+  {noremap = true, silent = true, desc = 'Toggle terminal'})

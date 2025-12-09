@@ -1,63 +1,40 @@
-return {
-  { 'tpope/vim-fugitive'; },
-  { 'tpope/vim-eunuch'; },            -- :SudoWrite
-  { 'tpope/vim-repeat'; },            -- Repeat mapping with .
-  { 'tpope/vim-sleuth'; },            -- Set buffer options heuristically
-  { 'tpope/vim-unimpaired'; event = "VeryLazy" },        -- ]q, ]a etc
-  { 'tpope/vim-abolish'; },           -- coerce cr_, crc etc
+vim.pack.add {
+  { src = 'https://github.com/tpope/vim-fugitive' },
+  { src = 'https://github.com/tpope/vim-eunuch' },            -- :SudoWrite
+  { src = 'https://github.com/tpope/vim-repeat' },            -- Repeat mapping with .
+  { src = 'https://github.com/tpope/vim-sleuth' },            -- Set buffer options heuristically
+  { src = 'https://github.com/tpope/vim-unimpaired' },        -- ]q, ]a etc
+  { src = 'https://github.com/tpope/vim-abolish' },           -- coerce cr_, crc etc
   {
-    -- Movements s', s(
-    "kylechui/nvim-surround",
-    version = "*",
-    event = "VeryLazy",
-    opts = {},
+    src = 'https://github.com/kylechui/nvim-surround',        -- Movements s', s(
+    version = vim.version.range('*'),
   },
+  { src = 'https://github.com/bronson/vim-visual-star-search' },
+  { src = 'https://github.com/raimondi/delimitmate' },
+  { src = 'https://github.com/wellle/targets.vim' },
+  { src = 'https://github.com/mh21/errormarker.vim' },
+  { src = 'https://github.com/sirtaj/vim-openscad' },
+  { src = 'https://github.com/plasticboy/vim-markdown' },
+  { src = 'https://github.com/Kris2k/A.vim' },
+  { src = 'https://github.com/ledger/vim-ledger' },
   {
-    'bronson/vim-visual-star-search',
-    keys = {
-      { '#', mode = 'x' },
-      { '*', mode = 'x' },
-    }
+    src = 'https://github.com/folke/which-key.nvim',
+    version = vim.version.range('*'),
   },
-  { 'raimondi/delimitmate'; },
-  { 'wellle/targets.vim'; },
-  { 'mh21/errormarker.vim'; },
-  { 'sirtaj/vim-openscad'; },
-  {
-    'plasticboy/vim-markdown',
-    ft = 'markdown',
-    init = function()
-      vim.g.vim_markdown_folding_disabled = true
-    end
-  },
-  {
-    'Kris2k/A.vim',
-    cmd = {"A", "AS"},
-  },
-  {
-    'ledger/vim-ledger',
-    ft = 'ledger',
-    init = function()
-      vim.g.ledger_bin = 'ledger'
-      vim.g.ledger_date_format = '%Y-%m-%d'
-      vim.g.ledger_extra_options = '--pedantic --explicit --date-format ' .. vim.g.ledger_date_format
-      vim.g.ledger_align_at = 45
-      vim.g.ledger_default_commodity = '₴'
-      vim.g.ledger_commodity_before = 0
-      vim.g.ledger_commodity_sep = ' '
-      vim.g.ledger_fold_blanks = 1
-    end,
-  },
-
-  -- Keymap online help
-  {
-    'folke/which-key.nvim',
-    version = '*',
-    opts = {}
-  },
-  {
-    'LittleMorph/copyright-updater.nvim',
-    event = 'BufModifiedSet',
-    opts = {}
-  },
+  { src = 'https://github.com/LittleMorph/copyright-updater.nvim' },
 }
+
+vim.g.vim_markdown_folding_disabled = true
+
+vim.g.ledger_bin = 'ledger'
+vim.g.ledger_date_format = '%Y-%m-%d'
+vim.g.ledger_extra_options = '--pedantic --explicit --date-format ' .. vim.g.ledger_date_format
+vim.g.ledger_align_at = 45
+vim.g.ledger_default_commodity = '₴'
+vim.g.ledger_commodity_before = 0
+vim.g.ledger_commodity_sep = ' '
+vim.g.ledger_fold_blanks = 1
+
+require'nvim-surround'.setup {}
+require'which-key'.setup {}
+require'copyright-updater'.setup {}

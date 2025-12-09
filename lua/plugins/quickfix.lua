@@ -1,20 +1,8 @@
-return {
-  { 'yorickpeterse/nvim-pqf', opts = {} },
-
-  {
-    'sakhnik/make-async.nvim',
-    opts = {},
-    cmd = { 'Make', 'X' },
-    keys = { '<leader>mm' },
-  },
-
-  {
-    'sakhnik/nvim-gdb',
-    cmd = {
-      'GdbStart', 'GdbStartLLDB', 'GdbStartPDB', 'GdbStartBashDB', 'GdbStartRR',
-    },
-    keys = {
-      '<leader>dd', '<leader>db', '<leader>dp', '<leader>db', '<leader>dr'
-    }
-  },
+vim.pack.add {
+  { src = 'https://github.com/yorickpeterse/nvim-pqf', },
+  { src = 'https://github.com/sakhnik/make-async.nvim', },
+  { src = 'https://github.com/sakhnik/nvim-gdb', },
 }
+
+require'pqf'.setup {}
+require'make-async'.setup {}

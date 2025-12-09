@@ -1,12 +1,12 @@
-return {
+vim.pack.add {
   {
-    'j-hui/fidget.nvim',
-    version = '*',
-    priority = 900,
-    opts = {
-      notification = {
-        override_vim_notify = true,
-      }
-    }
+    src = 'https://github.com/j-hui/fidget.nvim',
+    version = vim.version.range('*'),
+  },
+}
+
+require'fidget'.setup {
+  notification = {
+    override_vim_notify = true,
   }
 }
