@@ -63,6 +63,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Avoid showing extra message when using completion
     vim.cmd "setlocal shortmess+=c"
     vim.wo.signcolumn = 'yes'
-    vim.bo.complete = 'o'
+    if vim.lsp.omnifunc ~= nil then
+      vim.bo.complete = 'o'
+    end
   end
 })
