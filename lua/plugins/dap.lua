@@ -6,16 +6,6 @@ vim.pack.add {
   { src = 'https://github.com/jbyuki/one-small-step-for-vimkind', },
 }
 
-local last_config = nil
-
-local function debug_last_session()
-  if last_config then
-    require'dap'.run(last_config)
-  else
-    require'dap'.continue()
-  end
-end
-
 local function create_dap_hover()
   local view = require("dap.ui.widgets").hover()
   local api = vim.api
@@ -54,6 +44,8 @@ local function on_left_click()
   end
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<LeftMouse>", true, true, true), "n", true)
 end
+
+local last_config = nil
 
 local function configure_dap()
   local dap = require('dap')
@@ -104,28 +96,46 @@ end
 
 local configured = false
 
-local function configure()
-  if configured then return end
-  configured = true
+local function get(module)
+  if not configured then
+    configured = true
 
-  configure_dap()
-  require'dapcfg.lua'
-  if vim.fn.executable('gdb') == 1 then
-    require('dapcfg.cpp')
+    configure_dap()
+    require'dapcfg.lua'
+    if vim.fn.executable('gdb') == 1 then
+      require('dapcfg.cpp')
+    end
+  end
+  return require(module)
+end
+
+local function debug_last_session()
+  if last_config then
+    get('dap').run(last_config)
+  else
+    get('dap').continue()
   end
 end
 
-vim.keymap.set('n', '<leader>bb', function() require'dap'.toggle_breakpoint() end, {noremap = true, silent = true, desc = 'DAP toggle breakpoint'})
+vim.keymap.set('n', '<leader>bb', function() get('dap').toggle_breakpoint() end, {noremap = true, silent = true, desc = 'DAP toggle breakpoint'})
 vim.keymap.set('n', '<leader>bc', debug_last_session, {noremap = true, silent = true, desc = 'DAP last session'})
-vim.keymap.set('n', '<leader>bc', function() require'dap'.continue() end, {noremap = true, silent = true, desc = 'DAP continue'})
+vim.keymap.set('n', '<leader>bc', function() get('dap').continue() end, {noremap = true, silent = true, desc = 'DAP continue'})
 
---require'dapui'.setup {}
-vim.keymap.set('n', '<leader>D', function() require'dapui'.toggle() end, {noremap = true, silent = true, desc = 'DAP UI'})
+local dap_ui_setup = false
+local function get_dap_ui()
+  if not dap_ui_setup then
+    require'dapui'.setup {}
+    dap_ui_setup = true
+  end
+  return require'dapui'
+end
+
+vim.keymap.set('n', '<leader>D', function() get_dap_ui().toggle() end, {noremap = true, silent = true, desc = 'DAP UI'})
 
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'py',
   callback = function()
-    require'dap-python'.setup('python3')
+    get('dap-python').setup('python3')
   end,
 })
