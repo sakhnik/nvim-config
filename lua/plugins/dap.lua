@@ -132,9 +132,8 @@ end
 
 vim.keymap.set('n', '<leader>D', function() get_dap_ui().toggle() end, {noremap = true, silent = true, desc = 'DAP UI'})
 
-
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'py',
+  pattern = 'python',
   callback = function()
     get('dap-python').setup('python3')
   end,

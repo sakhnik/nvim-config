@@ -83,12 +83,12 @@ require'plugins.term'
 require'plugins.lsp'
 --require'plugins.completion'
 require'plugins.dap'
---require'plugins.jdtls'
+require'plugins.jdtls'
 require'plugins.db'
 --require'plugins.leetcode'
 --require'plugins.rust'
 --require'plugins.test'
---require'plugins.wiki'
+require'plugins.wiki'
 
 --require'plugins.diff',
 
