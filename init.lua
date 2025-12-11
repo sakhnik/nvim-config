@@ -71,6 +71,9 @@ vim.keymap.set('n', '<Leader><space>', [[/\s\+$\| \+\ze\t<cr>]], { noremap = tru
 -- Copy everything to the clipboard
 vim.keymap.set('n', '<leader>yy', [[:%y+<cr>]], { noremap = true })
 
+require'local.digraphs'
+require'local.autocmds'
+
 require'plugins.color'
 require'plugins.libs'
 require'plugins.vim'
