@@ -58,13 +58,27 @@ for server, config in pairs(lsp_configs) do
 end
 
 vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(--[[args]])
-    --local client = vim.lsp.get_client_by_id(args.data.client_id)
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if not client then
+      return
+    end
+
     -- Avoid showing extra message when using completion
     vim.cmd "setlocal shortmess+=c"
     vim.wo.signcolumn = 'yes'
-    if vim.lsp.omnifunc ~= nil then
-      vim.bo.complete = 'o'
+
+    for bufnr, _ in pairs(client.attached_buffers) do
+      vim.lsp.completion.enable(true, client.id, bufnr, {
+        autotrigger = true,
+        --convert = function(item)
+        --  return { abbr = item.label:gsub('%b()', '') }
+        --end,
+      })
+
+      if vim.lsp.omnifunc ~= nil then
+        vim.bo[bufnr].complete = 'o'
+      end
     end
   end
 })
