@@ -119,7 +119,7 @@ end
 
 vim.keymap.set('n', '<leader>bb', function() get('dap').toggle_breakpoint() end, {noremap = true, silent = true, desc = 'DAP toggle breakpoint'})
 vim.keymap.set('n', '<leader>bc', debug_last_session, {noremap = true, silent = true, desc = 'DAP last session'})
-vim.keymap.set('n', '<leader>bc', function() get('dap').continue() end, {noremap = true, silent = true, desc = 'DAP continue'})
+vim.keymap.set('n', '<leader>bC', function() get('dap').continue() end, {noremap = true, silent = true, desc = 'DAP continue'})
 
 local dap_ui_setup = false
 local function get_dap_ui()
