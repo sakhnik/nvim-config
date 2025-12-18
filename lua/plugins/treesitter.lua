@@ -24,20 +24,33 @@ vim.api.nvim_create_autocmd('FileType', {
 
     local ft = ev.match
     local lang = vim.treesitter.language.get_lang(ft)
+    if not lang then
+      vim.notify('No treesitter language for filetype ' .. ft, vim.log.levels.ERROR)
+      return
+    end
 
-    if lang and vim.treesitter.language.add(lang) then
-      local installed = nts.get_installed('parsers')
-      for _, installed_lang in ipairs(installed) do
-        if installed_lang == lang then
-          if vim.treesitter.query.get(lang, 'highlights') then
-            pcall(vim.treesitter.start)
-            --vim.bo[ev.buf].indentexpr = 'v:lua.require"nvim-treesitter".indentexpr()'
+    local ok, job = pcall(nts.install, lang)
+    if not ok then
+      vim.notify("Can't install treesitter language " .. lang, vim.log.levels.ERROR)
+      return
+    end
+
+    job:await(function()
+      if vim.treesitter.language.add(lang) then
+        local installed = nts.get_installed('parsers')
+        for _, installed_lang in ipairs(installed) do
+          if installed_lang == lang then
+            if vim.treesitter.query.get(lang, 'highlights') then
+              local ok, _ = pcall(vim.treesitter.start)
+              if not ok then
+                vim.notify("Can't start treesitter for language " .. lang)
+              end
+              --vim.bo[ev.buf].indentexpr = 'v:lua.require"nvim-treesitter".indentexpr()'
+            end
+            break
           end
-          break
         end
       end
-
-      pcall(nts.install, lang);
-    end
+    end)
   end,
 })
