@@ -16,16 +16,12 @@ map("n", "<leader>lh",
 
 -- Insert-mode <Tab>: first completion item + alignment
 map("i", "<Tab>", function()
-    local n = vim.api.nvim_replace_termcodes("<C-n>", true, false, true)
-    local y = vim.api.nvim_replace_termcodes("<C-y>", true, false, true)
-    vim.api.nvim_feedkeys(n, "n", false)
-    vim.api.nvim_feedkeys(y, "n", false)
-
     -- Run alignment deferred to avoid flicker
     vim.schedule(function()
         vim.fn['ledger#autocomplete_and_align']()
     end)
-end, buf)
+    return "<c-n><c-y>"
+end, { buffer = true, silent = true, expr = true })
 
 map("v", "<Tab>", function()
     vim.cmd("LedgerAlign")
