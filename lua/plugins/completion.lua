@@ -7,6 +7,13 @@ vim.o.pumheight = 7
 vim.o.pummaxwidth = 80
 
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'TelescopePrompt',
+  callback = function()
+    vim.bo.autocomplete = false;
+  end,
+})
+
 -- Insert-mode <Tab>: completion next
 vim.keymap.set("i", "<Tab>", function()
   if vim.fn.pumvisible() == 1 then
