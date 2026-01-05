@@ -29,6 +29,11 @@ vim.api.nvim_create_autocmd('FileType', {
       return
     end
 
+    if not vim.list_contains(nts.get_available(), lang) then
+      vim.notify('No tree-sitter parser for lang ' .. lang)
+      return
+    end
+
     local ok, job = pcall(nts.install, lang)
     if not ok then
       vim.notify("Can't install treesitter language " .. lang, vim.log.levels.ERROR)
