@@ -30,12 +30,15 @@ vim.diagnostic.handlers.loclist = {
 
 vim.keymap.set("n", "<m-k>", vim.diagnostic.open_float, {noremap = true, silent = true, desc = 'Open floating window with diagnostic info'})
 
+-- If platformio is enabled, let clangd find c++ headers in the toolchain
+local clangd_pio_path = vim.fn.executable('pio') == 1 and "--query-driver=/home/*/.platformio/packages/toolchain-*/bin/*g++" or nil
+
 local lsp_configs = {
   lua_ls = {
   },
 
   clangd = {
-    cmd = { "clangd", "--completion-style=detailed", "--enable-config", "--log=error" }
+    cmd = { "clangd", "--completion-style=detailed", "--enable-config", "--log=error", clangd_pio_path }
   },
 
   pylsp = {
