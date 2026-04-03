@@ -61,9 +61,6 @@ vim.api.nvim_create_autocmd("UIEnter", {
   end
 })
 
--- Forget about ex mode
-vim.keymap.set('', 'Q', function() end)
-
 -- Find tailing white spaces
 vim.keymap.set('n', '<Leader><space>', [[/\s\+$\| \+\ze\t<cr>]], { noremap = true })
 
