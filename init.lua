@@ -7,7 +7,6 @@
 vim.g.netrw_liststyle = 3
 
 vim.o.fileencodings = 'utf-8,cp1251,default'
-vim.o.wildmode = 'longest,list,full'
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.tabstop = 4

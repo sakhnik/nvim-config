@@ -5,7 +5,22 @@ vim.o.complete = "o,.,w,b,u"
 vim.o.completeopt = "fuzzy,menuone,noselect,popup"
 vim.o.pumheight = 7
 vim.o.pummaxwidth = 80
+vim.o.wildmode = 'noselect,longest,full'
 
+vim.api.nvim_create_autocmd("CmdlineChanged", {
+  pattern = ":",
+  callback = function ()
+    vim.fn.wildtrigger()
+  end
+})
+
+function _G.my_find(text, _)
+  local files = vim.fn.glob("**/*", true, true)
+
+  return vim.fn.matchfuzzy(files, text)
+end
+
+vim.opt.findfunc = "v:lua.my_find"
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'TelescopePrompt',
