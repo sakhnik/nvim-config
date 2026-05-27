@@ -68,20 +68,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     -- Avoid showing extra message when using completion
-    vim.cmd "setlocal shortmess+=c"
-    vim.wo.signcolumn = 'yes'
+    vim.opt_local.shortmess:append('c')
+    vim.wo[0].signcolumn = 'yes'
 
-    for bufnr, _ in pairs(client.attached_buffers) do
-      vim.lsp.completion.enable(true, client.id, bufnr, {
-        autotrigger = true,
-        --convert = function(item)
-        --  return { abbr = item.label:gsub('%b()', '') }
-        --end,
-      })
-
-      if vim.lsp.omnifunc ~= nil then
-        vim.bo[bufnr].complete = 'o'
-      end
-    end
+    vim.lsp.completion.enable(true, client.id, ev.buf, {
+      autotrigger = true,
+      --convert = function(item)
+      --  return { abbr = item.label:gsub('%b()', '') }
+      --end,
+    })
   end
 })
