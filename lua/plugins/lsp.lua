@@ -38,7 +38,7 @@ local lsp_configs = {
   },
 
   clangd = {
-    cmd = { "clangd", "--completion-style=detailed", "--enable-config", "--log=error", clangd_pio_path }
+    cmd = { "clangd", "--enable-config", "--log=error", clangd_pio_path }
   },
 
   pylsp = {
@@ -63,19 +63,10 @@ end
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if not client then
-      return
+    if client then
+      -- Avoid showing extra message when using completion
+      vim.opt_local.shortmess:append('c')
+      vim.wo[0].signcolumn = 'yes'
     end
-
-    -- Avoid showing extra message when using completion
-    vim.opt_local.shortmess:append('c')
-    vim.wo[0].signcolumn = 'yes'
-
-    vim.lsp.completion.enable(true, client.id, ev.buf, {
-      autotrigger = true,
-      --convert = function(item)
-      --  return { abbr = item.label:gsub('%b()', '') }
-      --end,
-    })
   end
 })
