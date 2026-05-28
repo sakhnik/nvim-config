@@ -10,7 +10,7 @@ vim.pack.add {
     version = vim.version.range('*'),
   },
   { src = 'https://github.com/bronson/vim-visual-star-search' },
-  { src = 'https://github.com/raimondi/delimitmate' },
+  { src = 'https://github.com/windwp/nvim-autopairs' },
   { src = 'https://github.com/wellle/targets.vim' },
   { src = 'https://github.com/mh21/errormarker.vim' },
   { src = 'https://github.com/sirtaj/vim-openscad' },
@@ -23,6 +23,8 @@ vim.pack.add {
   },
   { src = 'https://github.com/LittleMorph/copyright-updater.nvim' },
 }
+
+require'nvim-autopairs'.setup {}
 
 vim.g.vim_markdown_folding_disabled = true
 
