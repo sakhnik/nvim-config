@@ -7,6 +7,7 @@ end
 
 vim.pack.add {
   { src = 'https://github.com/numToStr/FTerm.nvim', },
+  { src = 'https://github.com/sakhnik/quickterm.nvim', }
 }
 
 require'FTerm'.setup {
