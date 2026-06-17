@@ -1,30 +1,10 @@
 vim.pack.add {
   { src = 'https://github.com/mfussenegger/nvim-dap', },
   { src = 'https://github.com/nvim-neotest/nvim-nio', },
-  { src = 'https://github.com/rcarriga/nvim-dap-ui', },
+  { src = 'https://github.com/igorlfs/nvim-dap-view', },
   { src = 'https://github.com/mfussenegger/nvim-dap-python', },
   { src = 'https://github.com/jbyuki/one-small-step-for-vimkind', },
 }
-
-local function create_dap_hover()
-  local view = require("dap.ui.widgets").hover()
-  local api = vim.api
-
-  local function close_hover()
-    if api.nvim_win_is_valid(view.win) then
-      api.nvim_win_close(view.win, true)
-    end
-  end
-
-  -- Close the hover when the buffer is left
-  api.nvim_create_autocmd("BufLeave", {
-    callback = close_hover,
-    buffer = view.buf,
-    once = true
-  })
-
-  vim.keymap.set('n', '<esc>', close_hover, { buffer = view.buf, silent = true })
-end
 
 -- Left click to print the symbol (hover)
 local function on_left_click()
@@ -36,7 +16,7 @@ local function on_left_click()
       if ok and #lines > 0 and mpos.column <= #lines[1] then
         vim.api.nvim_set_current_win(mpos.winid)
         if pcall(vim.api.nvim_win_set_cursor, mpos.winid, {mpos.line, mpos.column - 1}) then
-          create_dap_hover()
+          vim.cmd('DapViewHover')
           return
         end
       end
@@ -84,7 +64,7 @@ local function configure_dap()
       vim.keymap.set('n', '<f4>', require'dap'.run_to_cursor, { silent = true })
       vim.keymap.set('n', '<f5>', require'dap'.continue, { silent = true })
       vim.keymap.set('n', '<f8>', require'dap'.set_breakpoint, { silent = true })
-      vim.keymap.set('n', '<f9>', create_dap_hover, { silent = true })
+      vim.keymap.set('n', '<f9>', '<Cmd>DapViewHover<cr>', { silent = true })
       vim.keymap.set('n', '<f10>', require'dap'.step_over, { silent = true })
       vim.keymap.set('n', '<down>', require'dap'.step_over, { silent = true })
       vim.keymap.set('n', '<f11>', require'dap'.step_into, { silent = true })
@@ -126,17 +106,6 @@ end
 vim.keymap.set('n', '<leader>bb', function() get('dap').toggle_breakpoint() end, {noremap = true, silent = true, desc = 'DAP toggle breakpoint'})
 vim.keymap.set('n', '<leader>bc', debug_last_session, {noremap = true, silent = true, desc = 'DAP last session'})
 vim.keymap.set('n', '<leader>bC', function() get('dap').continue() end, {noremap = true, silent = true, desc = 'DAP continue'})
-
-local dap_ui_setup = false
-local function get_dap_ui()
-  if not dap_ui_setup then
-    require'dapui'.setup {}
-    dap_ui_setup = true
-  end
-  return require'dapui'
-end
-
-vim.keymap.set('n', '<leader>D', function() get_dap_ui().toggle() end, {noremap = true, silent = true, desc = 'DAP UI'})
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'python',
