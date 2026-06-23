@@ -25,10 +25,28 @@ local function on_left_click()
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<LeftMouse>", true, true, true), "n", true)
 end
 
+local configured_dap_view = false
+
+local function get_dap_view()
+  local dap_view = require'dap-view'
+  if not configured_dap_view then
+    configured_dap_view = true
+    dap_view.setup {
+      windows = {
+        size = 0.5,
+        position = "right",
+      },
+      auto_toggle = true,
+    }
+  end
+  return dap_view
+end
+
 local last_config = nil
 
 local function configure_dap()
   local dap = require('dap')
+  get_dap_view()
   local timer_id = -1
 
   ---@param session dap.Session
@@ -93,23 +111,6 @@ local function get(module)
     end
   end
   return require(module)
-end
-
-local configured_dap_view = false
-
-local function get_dap_view()
-  local dap_view = require'dap-view'
-  if not configured_dap_view then
-    configured_dap_view = true
-    dap_view.setup {
-      windows = {
-        size = 0.5,
-        position = "right",
-      },
-      auto_toggle = true,
-    }
-  end
-  return dap_view
 end
 
 local function debug_last_session()
